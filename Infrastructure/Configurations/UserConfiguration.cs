@@ -10,9 +10,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.ToTable("Users");
 
-        builder.Property(user => user.FirstName).IsRequired().HasMaxLength(20);
-        
-        builder.Property(user => user.LastName).IsRequired(false).HasMaxLength(20);
+        builder.OwnsOne(user => user.Name, name =>
+        {
+            name.Property(u => u.FirstName).IsRequired().HasMaxLength(20);
+            name.Property(u => u.LastName).IsRequired(false).HasMaxLength(20);
+        });
         
         builder.Property(user => user.Birthdate).IsRequired().HasColumnType("timestamp with time zone");
         

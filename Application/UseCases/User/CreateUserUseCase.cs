@@ -15,6 +15,7 @@ public class CreateUserUseCase(
     public async Task CreateUser(CreateUserRequest request)
     {
         var entity = mapper.Map<Domain.Entities.User>(request);
+        
         await repository.CreateAsync(entity);
         await unitOfWork.CommitAsync();
     }

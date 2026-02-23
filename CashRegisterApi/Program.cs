@@ -1,7 +1,6 @@
-using System.Reflection;
 using Repository;
+using UseCase.Services;
 using UseCase.UseCases;
-using UseCase.UseCases.Mapping;
 using UseCase.UseCases.Mapping.User;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,9 +11,9 @@ builder.Services.AddControllers();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
-builder.Services.AddApplication();
+builder.Services.AddUseCase();
 
-builder.Services.AddAutoMapper(cfg => { }, typeof(UserCreateMapping).Assembly);
+builder.Services.ConfigurationServices();
 
 // Adiciona o ApiExplorer, necessário para descobrir os endpoints da sua API
 builder.Services.AddEndpointsApiExplorer();

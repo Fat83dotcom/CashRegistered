@@ -1,5 +1,5 @@
 ﻿services:
-  clinic.db:
+  cash_register.db:
     image: postgres:15-alpine
     container_name: cash_register_postgres
     environment:
@@ -11,8 +11,8 @@
     volumes:
       - ./.containers/db:/var/lib/postgresql/data # Persistência de dados
     networks:
-      - clinic-network
+      - cash_register-network
 
 networks:
-  clinic-network:
+  cash_register-network:
     driver: bridge

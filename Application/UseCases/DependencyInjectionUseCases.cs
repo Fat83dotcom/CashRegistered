@@ -4,9 +4,9 @@ using UseCase.UseCases.User;
 
 namespace UseCase.UseCases;
 
-public static class DependencyInjectionExtension
+public static class DependencyInjectionUseCases
 {
-    public static void AddApplication(this IServiceCollection services)
+    public static void AddUseCase(this IServiceCollection services)
     {
         services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
     }

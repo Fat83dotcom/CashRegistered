@@ -4,5 +4,5 @@ namespace UseCase.UseCases.Interfaces;
 
 public interface ICreateUserUseCase
 {
-    public void CreateUser(CreateUserRequest request);
+    public Task CreateUser(CreateUserRequest request);
 }

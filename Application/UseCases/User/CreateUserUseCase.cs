@@ -1,15 +1,21 @@
 using AutoMapper;
 using Domain.Repositories.User;
+using Shared.Abstractions;
 using UseCase.Request.User;
 using UseCase.UseCases.Interfaces;
 
 namespace UseCase.UseCases.User;
 
-public class CreateUserUseCase(IUserRepository repository, IMapper  mapper) : ICreateUserUseCase
+public class CreateUserUseCase(
+    IUserRepository repository,
+    IMapper mapper,
+    IUnitOfWork unitOfWork
+) : ICreateUserUseCase
 {
-    public void CreateUser(CreateUserRequest request)
+    public async Task CreateUser(CreateUserRequest request)
     {
         var entity = mapper.Map<Domain.Entities.User>(request);
-        repository.CreateAsync(entity);
+        await repository.CreateAsync(entity);
+        await unitOfWork.CommitAsync();
     }
 }

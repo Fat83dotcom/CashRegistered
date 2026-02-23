@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Repository.Persistence;
 using Repository.Repositories;
+using Shared.Abstractions;
 
 namespace Repository;
 
@@ -20,7 +21,10 @@ public static class DependencyInjection
         services.AddDbContext<CashRegisterDbContext>(options =>
             options.UseNpgsql(connectionString)); 
 
-        // 2. Injeta os Repositórios (Linka a Interface com a Implementação)
+        // Dentro do método AddInfrastructure
+        services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<CashRegisterDbContext>());
+        
+        // Injeta os Repositórios (Linka a Interface com a Implementação)
         services.AddScoped<IUserRepository, UserRepository>();
 
         return services;

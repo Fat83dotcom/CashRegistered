@@ -14,7 +14,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         
         builder.Property(user => user.LastName).IsRequired(false).HasMaxLength(20);
         
-        builder.Property(user => user.Birthdate).IsRequired().HasColumnType("timestamp");
+        builder.Property(user => user.Birthdate).IsRequired().HasColumnType("timestamp with time zone");
         
         builder.Property(user => user.Document).IsRequired().HasMaxLength(11);
     }

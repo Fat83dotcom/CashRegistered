@@ -9,9 +9,9 @@ namespace CashRegister.Controllers.User;
 public class UserController(ICreateUserUseCase userUseCase) : ControllerBase
 {
     [HttpPost]
-    public IActionResult CreateUser(CreateUserRequest request)
+    public async Task<IActionResult> CreateUser(CreateUserRequest request)
     {
-        userUseCase.CreateUser(request);
+        await userUseCase.CreateUser(request);
         return Created();
     }
 }

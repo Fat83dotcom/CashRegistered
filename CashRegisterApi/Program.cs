@@ -1,10 +1,20 @@
-
+using System.Reflection;
+using Repository;
+using UseCase.UseCases;
+using UseCase.UseCases.Mapping;
+using UseCase.UseCases.Mapping.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // --- 1. SEÇÃO DE SERVIÇOS (Injeção de Dependência) ---
 
 builder.Services.AddControllers();
+
+builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddApplication();
+
+builder.Services.AddAutoMapper(cfg => { }, typeof(UserCreateMapping).Assembly);
 
 // Adiciona o ApiExplorer, necessário para descobrir os endpoints da sua API
 builder.Services.AddEndpointsApiExplorer();

@@ -1,6 +1,10 @@
+
+
+using Shared.Abstractions;
+
 namespace Domain.Entities;
 
-public class User
+public class User : BaseEntity
 {
     public User(string firstName, string lastName, DateTime birthdate, string document)
     {
@@ -9,6 +13,7 @@ public class User
         Birthdate = birthdate;
         Document = document;
     }
+    protected User() { }
 
     public string FirstName { get; private set; }
 

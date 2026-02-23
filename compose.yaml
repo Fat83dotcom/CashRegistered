@@ -1,0 +1,18 @@
+﻿services:
+  clinic.db:
+    image: postgres:15-alpine
+    container_name: cash_register_postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=Dev_StrongPass!2026
+      - POSTGRES_DB=CashRegister_Db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.containers/db:/var/lib/postgresql/data # Persistência de dados
+    networks:
+      - clinic-network
+
+networks:
+  clinic-network:
+    driver: bridge

@@ -9,5 +9,6 @@ public static class DependencyInjectionUseCases
     public static void AddUseCase(this IServiceCollection services)
     {
         services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
+        services.AddScoped<IGetUserUseCase, GetUserUseCase>();
     }
 }

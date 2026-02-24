@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using Domain.Entities;
 using Domain.Repositories.User;
+using Microsoft.EntityFrameworkCore;
 using Repository.Persistence;
 using Shared.Abstractions;
 
@@ -18,9 +19,9 @@ public class UserRepository(CashRegisterDbContext context) :  IUserRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<User>> FindAsync(Expression<Func<User, bool>> predicate)
+    public async Task<IEnumerable<User>> FindAsync(Expression<Func<User, bool>> predicate)
     {
-        throw new NotImplementedException();
+        return await context.Users.Where(predicate).ToListAsync();
     }
 
     public void Update(User entity)

@@ -1,7 +1,7 @@
-
-
+using Domain.Validations;
 using Domain.ValueObjects;
 using Shared.Abstractions;
+using Shared.Exceptions;
 
 namespace Domain.Entities;
 
@@ -12,12 +12,10 @@ public class User : BaseEntity
         Name = name;
         Birthdate = birthdate;
         Document = document;
+        
+        Validate(this, new UserValidation(), errors => new DomainException(errors));
     }
     protected User() { }
-
-    // public string FirstName { get; private set; }
-    //
-    // public string LastName { get; private set; }
 
     public Name Name { get; private set; }
 

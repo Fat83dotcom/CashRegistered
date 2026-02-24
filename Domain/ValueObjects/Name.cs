@@ -1,4 +1,5 @@
 using Domain.Validations;
+using Shared.Exceptions;
 using Shared.ValueObjects;
 
 namespace Domain.ValueObjects;
@@ -10,9 +11,10 @@ public class Name : ValueObject
         FirstName = firstName;
         LastName = lastName;
         
-        Validate(this, new NameValidator());
+        Validate(this, new NameValidator(), errors => new DomainException(errors));
     }
     
+    protected Name() { }
     
     public string FirstName { get; private set; }
 

@@ -1,21 +1,14 @@
 namespace Shared.Exceptions;
 
-public class DomainException : Exception
+public class DomainException : BaseException
 {
-    public IReadOnlyCollection<string> Errors { get; }
-
-    public DomainException(string message) : base(message) 
-    { 
-        Errors = new List<string>();
-    }
-
-    public DomainException(List<string> errors) : base("Um ou mais erros de validação de domínio ocorreram.")
+    public DomainException(string message = "Um ou mais erros de validação de domínio ocorreram.") : base(message)
     {
-        Errors = errors.AsReadOnly();
     }
-
-    public DomainException(string message, List<string> errors) : base(message)
+    
+    public DomainException(
+        List<string> errors,
+        string message = "Um ou mais erros de validação de domínio ocorreram.") : base(message, errors)
     {
-        Errors = errors.AsReadOnly();
     }
 }

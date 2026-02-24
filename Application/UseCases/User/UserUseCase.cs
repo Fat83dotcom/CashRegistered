@@ -7,10 +7,10 @@ using UseCase.UseCases.Interfaces;
 
 namespace UseCase.UseCases.User;
 
-public class CreateUserUseCase(
+public class UserUseCase(
     IUserRepository repository,
     IUnitOfWork unitOfWork
-) : ICreateUserUseCase
+) : IUserUseCase
 {
     public async Task CreateUser(CreateUserRequest request)
     {
@@ -24,5 +24,10 @@ public class CreateUserUseCase(
         
         await repository.CreateAsync(user);
         await unitOfWork.CommitAsync();
+    }
+    
+    public async Task<IEnumerable<Domain.Entities.User>> GetUsers()
+    {
+        return await repository.FindAsync(u => true);
     }
 }

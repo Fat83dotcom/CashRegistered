@@ -5,10 +5,6 @@ namespace Shared.ValueObjects;
 
 public abstract class ValueObject
 {
-    public bool IsValid { get; private set; }
-    public IReadOnlyCollection<string> Errors => _errors;
-    private readonly List<string> _errors = new();
-
     protected void Validate<T>(
         T model,
         AbstractValidator<T> validator,

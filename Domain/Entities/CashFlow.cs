@@ -1,17 +1,22 @@
+using Shared.Abstractions;
+
 namespace Domain.Entities;
 
-public class CashFlow
+public class CashFlow : BaseEntity
 {
-    public CashFlow(int userId)
+    public CashFlow(int userId, IReadOnlyCollection<Expense>? expenses)
     {
         UserId = userId;
+        Expenses = expenses;
     }
 
+    protected CashFlow() {}
+
     public decimal CurrentBalance { get; private set; }
-
-    public string ExpenseDescription { get; private set; }
-
-    public decimal ExpenseValue { get; private set; }
     
     public int UserId { get; private set; }
+    
+    public User? User { get; init; }
+
+    public IReadOnlyCollection<Expense>? Expenses { get; }
 }

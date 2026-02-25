@@ -19,7 +19,5 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(user => user.Birthdate).IsRequired().HasColumnType("timestamp with time zone");
         
         builder.Property(user => user.Document).IsRequired().HasMaxLength(11);
-
-        builder.Ignore(user => user.IsValid);
     }
 }

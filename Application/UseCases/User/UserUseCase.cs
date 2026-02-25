@@ -17,7 +17,8 @@ public class UserUseCase(
         Name name = new (request.FirstName,
             request.LastName
         );
-        Domain.Entities.User user = new (name,
+        Domain.Entities.User user = new (
+            name,
             request.BirthDate,
             request.Document
         );

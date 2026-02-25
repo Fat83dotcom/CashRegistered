@@ -8,6 +8,10 @@ public class CashRegisterDbContext(DbContextOptions<CashRegisterDbContext> optio
 {
     public DbSet<User> Users { get; set; }
     
+    public DbSet<CashFlow> CashFlows { get; set; }
+    
+    public DbSet<Expense> Expenses { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Aplica todas as configurações (Configurations) definidas neste assembly

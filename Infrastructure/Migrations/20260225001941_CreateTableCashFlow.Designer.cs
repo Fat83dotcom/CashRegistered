@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Repository.Persistence;
@@ -11,9 +12,11 @@ using Repository.Persistence;
 namespace Repository.Migrations
 {
     [DbContext(typeof(CashRegisterDbContext))]
-    partial class CashRegisterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260225001941_CreateTableCashFlow")]
+    partial class CreateTableCashFlow
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,11 +72,10 @@ namespace Repository.Migrations
 
                     b.Property<string>("ExpenseDescription")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("ExpenseValue")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
@@ -82,8 +84,6 @@ namespace Repository.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CashFlowId");
 
                     b.ToTable("Expenses");
                 });
@@ -129,17 +129,6 @@ namespace Repository.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Expense", b =>
-                {
-                    b.HasOne("Domain.Entities.CashFlow", "CashFlow")
-                        .WithMany("Expenses")
-                        .HasForeignKey("CashFlowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CashFlow");
-                });
-
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.OwnsOne("Domain.ValueObjects.Name", "Name", b1 =>
@@ -166,11 +155,6 @@ namespace Repository.Migrations
 
                     b.Navigation("Name")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Entities.CashFlow", b =>
-                {
-                    b.Navigation("Expenses");
                 });
 #pragma warning restore 612, 618
         }

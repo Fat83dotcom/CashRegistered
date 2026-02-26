@@ -18,7 +18,7 @@ public class UserController(IUserUseCase user) : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetUsers()
     {
-        var result = await user.GetUsers();
+        var result = await user.GetAllUsers();
         return Ok(result);
     }
 }

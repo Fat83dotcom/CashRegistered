@@ -1,13 +1,15 @@
 using System.Linq.Expressions;
 using Domain.Entities;
+using Domain.Repositories;
 using Domain.Repositories.User;
 using Microsoft.EntityFrameworkCore;
 using Repository.Persistence;
 using Shared.Abstractions;
+using Shared.Response;
 
 namespace Repository.Repositories;
 
-public class UserRepository(CashRegisterDbContext context) :  IUserRepository
+public class UserRepository(CashRegisterDbContext context) : IUserRepository
 {
     public async Task CreateAsync(User entity)
     {
@@ -21,7 +23,10 @@ public class UserRepository(CashRegisterDbContext context) :  IUserRepository
 
     public async Task<IEnumerable<User>> FindAsync(Expression<Func<User, bool>> predicate)
     {
-        return await context.Users.Where(predicate).ToListAsync();
+        return await context.Users
+            .Where(predicate)
+            .Include(u => u.CashFlow)
+            .ToListAsync();
     }
 
     public void Update(User entity)
@@ -30,6 +35,11 @@ public class UserRepository(CashRegisterDbContext context) :  IUserRepository
     }
 
     public void Delete(User entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<GetAllUsersResponse>> GetUsers()
     {
         throw new NotImplementedException();
     }

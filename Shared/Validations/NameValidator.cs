@@ -1,5 +1,5 @@
-using Domain.ValueObjects;
 using FluentValidation;
+using Shared.ValueObjects;
 
 namespace Domain.Validations;
 

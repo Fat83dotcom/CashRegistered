@@ -1,9 +1,10 @@
 using FluentValidation;
 using Shared.Exceptions;
+using Shared.Validations;
 
 namespace Shared.Abstractions;
 
-public abstract class BaseEntity
+public abstract class BaseEntity : GeneralValidator
 {
     public int Id { get; protected set; }
     
@@ -27,19 +28,5 @@ public abstract class BaseEntity
     {
         IsActive = true;
         RegisterUpdate();
-    }
-    
-    protected void Validate<T>(
-        T model,
-        AbstractValidator<T> validator,
-        Func<List<string>,
-            BaseException> exceptionFactory
-    )
-    {
-        var result = validator.Validate(model);
-
-        if (result.IsValid) return;
-        var errors = result.Errors.Select(x => x.ErrorMessage).ToList();
-        throw exceptionFactory(errors);
     }
 } 

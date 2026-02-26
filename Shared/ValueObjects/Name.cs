@@ -1,8 +1,7 @@
 using Domain.Validations;
 using Shared.Exceptions;
-using Shared.ValueObjects;
 
-namespace Domain.ValueObjects;
+namespace Shared.ValueObjects;
 
 public class Name : ValueObject
 {

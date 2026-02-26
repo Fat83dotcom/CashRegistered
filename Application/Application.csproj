@@ -8,9 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Response\" />
       <Folder Include="UseCases\Mapping\" />
-      <Folder Include="Validations\User\" />
+      <Folder Include="Validations\" />
     </ItemGroup>
 
     <ItemGroup>

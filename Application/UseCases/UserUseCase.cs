@@ -1,11 +1,13 @@
-using AutoMapper;
+using Domain.Entities;
+using Domain.Repositories;
 using Domain.Repositories.User;
-using Domain.ValueObjects;
 using Shared.Abstractions;
+using Shared.Response;
+using Shared.ValueObjects;
 using UseCase.Request.User;
 using UseCase.UseCases.Interfaces;
 
-namespace UseCase.UseCases.User;
+namespace UseCase.UseCases;
 
 public class UserUseCase(
     IUserRepository repository,
@@ -26,8 +28,23 @@ public class UserUseCase(
         await repository.CreateAsync(user);
         await unitOfWork.CommitAsync();
     }
-    
-    public async Task<IEnumerable<Domain.Entities.User>> GetUsers()
+
+    public async Task<IEnumerable<GetAllUsersResponse>> GetAllUsers()
+    {
+        var allUsers = await repository.FindAsync(u => true);
+        IEnumerable<GetAllUsersResponse> selectedUsers = allUsers.Select(
+            user => new GetAllUsersResponse
+            {
+                Name = user.Name,
+                Birthdate = user.Birthdate,
+                Document = user.Document
+            }
+        );
+        
+        return selectedUsers;
+    }
+
+    public async Task<IEnumerable<User>> GetUsersIncludeCashFlow()
     {
         return await repository.FindAsync(u => true);
     }

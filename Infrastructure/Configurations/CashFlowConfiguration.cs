@@ -10,12 +10,12 @@ public class CashFlowConfiguration : IEntityTypeConfiguration<CashFlow>
     {
         builder.ToTable("CashFlows");
         
-        builder.Property( cashFlow => cashFlow.CurrentBalance).IsRequired().HasColumnType("decimal(18,2)");
+        builder.Property(cashFlow => cashFlow.CurrentBalance).IsRequired(false).HasColumnType("decimal(18,2)");
 
         builder.HasKey(cashFlow => cashFlow.Id);
 
         builder.HasOne(c => c.User)
-            .WithOne()
+            .WithOne(u => u.CashFlow)
             .HasForeignKey<CashFlow>(c => c.UserId)
             .IsRequired();
     }

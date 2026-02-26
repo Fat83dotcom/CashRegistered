@@ -121,7 +121,7 @@ namespace Repository.Migrations
             modelBuilder.Entity("Domain.Entities.CashFlow", b =>
                 {
                     b.HasOne("Domain.Entities.User", "User")
-                        .WithOne()
+                        .WithOne("CashFlow")
                         .HasForeignKey("Domain.Entities.CashFlow", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -171,6 +171,12 @@ namespace Repository.Migrations
             modelBuilder.Entity("Domain.Entities.CashFlow", b =>
                 {
                     b.Navigation("Expenses");
+                });
+
+            modelBuilder.Entity("Domain.Entities.User", b =>
+                {
+                    b.Navigation("CashFlow")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

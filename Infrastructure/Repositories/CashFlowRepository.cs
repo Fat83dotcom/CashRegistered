@@ -1,12 +1,11 @@
 using System.Linq.Expressions;
 using Domain.Entities;
-using Domain.Repositories.User;
+using Domain.Repositories;
 using Repository.Persistence;
-using Shared.Abstractions;
 
 namespace Repository.Repositories;
 
-public class CashFlowRepository(CashRegisterDbContext context) : ICashFlowRepositoy
+public class CashFlowRepository(CashRegisterDbContext context) : ICashFlowRepository
 {
     public async Task CreateAsync(CashFlow entity)
     {

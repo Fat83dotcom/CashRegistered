@@ -1,15 +1,15 @@
 using Domain.Entities;
-using Domain.Repositories.User;
+using Domain.Repositories;
 using Shared.Abstractions;
+using Shared.Request;
 using Shared.Validations;
-using UseCase.Request.CashFlow;
 using UseCase.UseCases.Interfaces;
 
 namespace UseCase.UseCases;
 
 public class CashFlowUseCase(
     IUserUseCase user,
-    ICashFlowRepositoy repository,
+    ICashFlowRepository repository,
     IUnitOfWork unitOfWork
 ) : GeneralValidator, ICashFlowUseCase
 {
@@ -17,9 +17,9 @@ public class CashFlowUseCase(
     {
         var cashFlow = new CashFlow(request.UserId);
         
-        var users = await user.GetUsersIncludeCashFlow();
+        var targetUser = await user.GetUserById(request.UserId);
         
-        cashFlow.CashFlowLinkedToAnotherUser(users);
+        cashFlow.CashFlowLinkedToUser(targetUser);
         
         await repository.CreateAsync(cashFlow);
         

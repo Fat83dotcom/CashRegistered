@@ -37,16 +37,17 @@ public class CashFlow : BaseEntity
         RegisterUpdate();
     }
 
-    public void CashFlowLinkedToAnotherUser(IEnumerable<User> users)
+    public void CashFlowLinkedToUser(User? user)
     {
-        foreach (var user in users)
-        {
-            if (user.CashFlow is null) return;
-            Validate(
-                this,
-                new CashFlowLinkedToAnotherUserValidation(user.CashFlow.Id),
-                error => new DomainException(error)
-            );
-        }
+        if (user?.CashFlow == null) return;
+
+        Id = user.CashFlow.Id;
+            
+        Validate(
+            this,
+            new CashFlowLinkedToUserValidation(),
+            error => new DomainException(error)
+        );
+        
     }
 }

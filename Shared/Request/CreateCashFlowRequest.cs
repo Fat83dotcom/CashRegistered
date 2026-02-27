@@ -1,4 +1,4 @@
-namespace UseCase.Request.CashFlow;
+namespace Shared.Request;
 
 public class CreateCashFlowRequest
 {

@@ -1,5 +1,5 @@
 using Domain.Entities;
-using UseCase.Request.CashFlow;
+using Shared.Request;
 
 namespace UseCase.UseCases.Interfaces;
 

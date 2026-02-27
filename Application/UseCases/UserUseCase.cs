@@ -1,10 +1,9 @@
 using Domain.Entities;
 using Domain.Repositories;
-using Domain.Repositories.User;
 using Shared.Abstractions;
+using Shared.Request;
 using Shared.Response;
 using Shared.ValueObjects;
-using UseCase.Request.User;
 using UseCase.UseCases.Interfaces;
 
 namespace UseCase.UseCases;
@@ -35,6 +34,7 @@ public class UserUseCase(
         IEnumerable<GetAllUsersResponse> selectedUsers = allUsers.Select(
             user => new GetAllUsersResponse
             {
+                Id =  user.Id,
                 Name = user.Name,
                 Birthdate = user.Birthdate,
                 Document = user.Document
@@ -47,5 +47,10 @@ public class UserUseCase(
     public async Task<IEnumerable<User>> GetUsersIncludeCashFlow()
     {
         return await repository.FindAsync(u => true);
+    }
+
+    public async Task<User?> GetUserById(int userId)
+    {
+        return await repository.GetByIdAsync(userId);
     }
 }

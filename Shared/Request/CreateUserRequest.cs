@@ -1,9 +1,9 @@
-namespace UseCase.Request.User;
+namespace Shared.Request;
 
 public class CreateUserRequest
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+    public string FirstName { get; set; } = null!;
+    public string LastName { get; set; } = null!;
     public DateTime BirthDate { get; set; }
-    public string Document { get; set; }
+    public string Document { get; set; } = null!;
 }

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using UseCase.Request.User;
+using Shared.Request;
 using UseCase.UseCases.Interfaces;
 
 namespace CashRegister.Controllers;

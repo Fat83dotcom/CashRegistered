@@ -1,10 +1,8 @@
 using System.Linq.Expressions;
 using Domain.Entities;
 using Domain.Repositories;
-using Domain.Repositories.User;
 using Microsoft.EntityFrameworkCore;
 using Repository.Persistence;
-using Shared.Abstractions;
 using Shared.Response;
 
 namespace Repository.Repositories;
@@ -16,9 +14,12 @@ public class UserRepository(CashRegisterDbContext context) : IUserRepository
         await context.Users.AddAsync(entity);
     }
 
-    public Task<User?> GetByIdAsync(int id)
+    public async Task<User?> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+       return await context.Users
+           .Where(u => u.Id == id)
+           .Include(u => u.CashFlow)
+           .FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<User>> FindAsync(Expression<Func<User, bool>> predicate)

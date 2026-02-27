@@ -1,5 +1,5 @@
-using Domain.Validations;
 using Shared.Exceptions;
+using Shared.Validations;
 
 namespace Shared.ValueObjects;
 

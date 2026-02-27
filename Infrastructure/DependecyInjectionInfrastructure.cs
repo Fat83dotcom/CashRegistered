@@ -1,5 +1,4 @@
 using Domain.Repositories;
-using Domain.Repositories.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +27,7 @@ public static class DependencyInjectionInfrastructure
         // Injeta os Repositórios (Linka a Interface com a Implementação)
         services.AddScoped<IUserRepository, UserRepository>();
         
-        services.AddScoped<ICashFlowRepositoy, CashFlowRepository>();
+        services.AddScoped<ICashFlowRepository, CashFlowRepository>();
 
         return services;
     }

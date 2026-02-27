@@ -1,5 +1,3 @@
-using FluentValidation;
-using Shared.Exceptions;
 using Shared.Validations;
 
 namespace Shared.ValueObjects;

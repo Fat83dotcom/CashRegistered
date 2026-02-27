@@ -1,7 +1,7 @@
 using FluentValidation;
 using Shared.ValueObjects;
 
-namespace Domain.Validations;
+namespace Shared.Validations;
 
 public class NameValidator : AbstractValidator<Name>
 {

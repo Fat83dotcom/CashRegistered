@@ -60,8 +60,27 @@ public class CashFlowUseCase(
         repository.Update(cashFlow);
     }
 
-    public Task<GetExpensesByCashFlowId> GetExpensesByCashFlowId(int cashFlowId)
+    public async Task<IEnumerable<GetExpensesByCashFlowIdResponse>> GetExpensesByCashFlowId(int cashFlowId)
     {
-        throw new NotImplementedException();
+        var result = await repository.FindAsync(
+            c => c.Id == cashFlowId
+        );
+
+        var response = result
+            .Select(c => new GetExpensesByCashFlowIdResponse
+                {
+                    CashFlowId = c.Id,
+                    UserId = c.UserId,
+                    UserName = c.User!.Name,
+                    ExpenseValues = c.Expenses?.Select<Expense, ExpenseValues>(e =>
+                        new ExpenseValues
+                        {
+                            ExpenseDescription = e.ExpenseDescription,
+                            Value = e.ExpenseValue
+                        }
+                    ).ToArray()
+                }
+            );
+        return response;
     }
 }

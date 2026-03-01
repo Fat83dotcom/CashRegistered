@@ -21,4 +21,11 @@ public class CashFlowController(ICashFlowUseCase cashFlow) : ControllerBase
         var response = await cashFlow.GetCashFlowsAvailable();
         return Ok(response);
     }
+
+    [HttpGet("GetExpensesByCashFlowIdId/")]
+    public async Task<IActionResult> GetExpensesByCashFlowId([FromQuery] int cashFlowId)
+    {
+        var response = await cashFlow.GetExpensesByCashFlowId(cashFlowId);
+        return Ok(response);
+    }
 }

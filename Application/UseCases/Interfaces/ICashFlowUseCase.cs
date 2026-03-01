@@ -16,5 +16,5 @@ public interface ICashFlowUseCase
     
     public void UpdateCashFlow(CashFlow cashFlow);
     
-    public Task<GetExpensesByCashFlowId> GetExpensesByCashFlowId(int cashFlowId);
+    public Task<IEnumerable<GetExpensesByCashFlowIdResponse>> GetExpensesByCashFlowId(int cashFlowId);
 }

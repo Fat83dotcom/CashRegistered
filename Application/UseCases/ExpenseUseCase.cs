@@ -34,7 +34,7 @@ public class ExpenseUseCase(
 
         var cashFlow = await cashFlowUseCase.GetCashFlowById(request.CashFlowId);
         
-        cashFlow!.UpdateCurrentBalance(request.ExpenseValue);
+        cashFlow!.DecreaseCurrentBalance(request.ExpenseValue);
         
         cashFlowUseCase.UpdateCashFlow(cashFlow);
 

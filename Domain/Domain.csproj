@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <Compile Remove="Validations\Nullable.cs" />
+      <Compile Remove="Validations\ValidateExpenseValueValidation.cs" />
     </ItemGroup>
 
     <PropertyGroup>

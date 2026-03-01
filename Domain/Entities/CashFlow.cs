@@ -31,10 +31,17 @@ public class CashFlow : BaseEntity
         );
     }
 
-    public void UpdateCurrentBalance(decimal? newValue)
+    public void DecreaseCurrentBalance(decimal? newValue)
     {
         if (newValue is 0 or null) return;
-        CurrentBalance = newValue;
+        CurrentBalance -= newValue;
+        RegisterUpdate();
+    }
+
+    public void IncreaseCurrentBalance(decimal? newValue)
+    {
+        if (newValue is 0 or null) return;
+        CurrentBalance += newValue;
         RegisterUpdate();
     }
 

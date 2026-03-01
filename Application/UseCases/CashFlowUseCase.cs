@@ -10,14 +10,14 @@ using Shared.Validations;
 namespace Application.UseCases;
 
 public class CashFlowUseCase(
-    IUserUseCase user,
+    IUserUseCase userUseCase,
     ICashFlowRepository repository,
     IUnitOfWork unitOfWork
 ) : GeneralValidator, ICashFlowUseCase
 {
     public async Task CreateCashFlow(CreateCashFlowRequest request)
     {
-        var targetUser = await user.GetUserById(request.UserId);
+        var targetUser = await userUseCase.GetUserById(request.UserId);
         
         User.UserExists(targetUser);
         
@@ -43,5 +43,25 @@ public class CashFlowUseCase(
             }
         );
         return response;
+    }
+
+    public async Task<IEnumerable<CashFlow>> GetCashFlows()
+    {
+        return await repository.FindAsync(cashFlow => true);
+    }
+
+    public async Task<CashFlow?> GetCashFlowById(int cashFlowId)
+    {
+        return await repository.GetByIdAsync(cashFlowId);
+    }
+
+    public void UpdateCashFlow(CashFlow cashFlow)
+    {
+        repository.Update(cashFlow);
+    }
+
+    public Task<GetExpensesByCashFlowId> GetExpensesByCashFlowId(int cashFlowId)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -15,7 +15,7 @@ public class Expense : BaseEntity
         Validate(
             this,
             new ExpenseValidation()!,
-            error => new DomainException()
+            error => new DomainException(error)
         );
     }
 

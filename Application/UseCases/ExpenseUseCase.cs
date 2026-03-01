@@ -9,22 +9,35 @@ namespace Application.UseCases;
 
 public class ExpenseUseCase(
     IExpenseRepository expenseRepository,
-    IUserRepository userRepository,
+    IUserUseCase userUseCase,
+    ICashFlowUseCase cashFlowUseCase,
     IUnitOfWork unitOfWork
 ) : GeneralValidator, IExpenseUseCase
 {
     public async Task CreateExpense(CreateExpenseRequest request)
     {
-        var user = await userRepository.GetByIdAsync(request.UserId);
+        var user = await userUseCase.GetUserById(request.UserId);
         
         User.UserExists(user);
         
-        user!.UserIdMatchCashFlow(request.CashFlowId);
+        user!.UserHasCashFlow();
+        
+        user.UserIdMatchCashFlow(request.CashFlowId);
 
         var newExpense = new Expense(
             request.ExpenseDescription,
             request.ExpenseValue,
-            request.UserId
+            request.CashFlowId
         );
+        
+        await expenseRepository.CreateAsync(newExpense);
+
+        var cashFlow = await cashFlowUseCase.GetCashFlowById(request.CashFlowId);
+        
+        cashFlow!.UpdateCurrentBalance(request.ExpenseValue);
+        
+        cashFlowUseCase.UpdateCashFlow(cashFlow);
+
+        await unitOfWork.CommitAsync();
     }
 }

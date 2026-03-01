@@ -14,9 +14,13 @@ public class CashFlowRepository(CashRegisterDbContext context) : ICashFlowReposi
         await context.CashFlows.AddAsync(entity);
     }
 
-    public Task<CashFlow?> GetByIdAsync(int id)
+    public async Task<CashFlow?> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return await context.CashFlows
+            .Where(c => c.Id == id)
+            .Include(cf => cf.Expenses)
+            .Include(cf => cf.User)
+            .FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<CashFlow>> FindAsync(Expression<Func<CashFlow, bool>> predicate)
@@ -30,7 +34,7 @@ public class CashFlowRepository(CashRegisterDbContext context) : ICashFlowReposi
 
     public void Update(CashFlow entity)
     {
-        throw new NotImplementedException();
+        context.CashFlows.Update(entity);
     }
 
     public void Delete(CashFlow entity)

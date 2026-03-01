@@ -44,10 +44,22 @@ public class User : BaseEntity
     {
         Validate(
             this,
-            new UserIdMatchCashFlowValidation(cashFlowId),
-            errors => new DomainException(errors),
-            new List<string> {"O usuário não possui um cash flow cadastrado."}
+            new UserIdMatchCashFlowValidation(cashFlowId)!,
+            errors => new DomainException(errors)
         );
+    }
+
+    public void UserHasCashFlow()
+    {
+        if (CashFlow == null)
+        {
+            Validate(
+            CashFlow,
+            new NullableValidation<CashFlow>(),
+            error => new DomainException(error),
+            new List<string> {"O usuário não possui um cash flow cadastrado."}
+            );
+        }
     }
 
     public void ValidateUserCashFlow(int cashFlowId)

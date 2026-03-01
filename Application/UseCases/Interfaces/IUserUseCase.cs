@@ -2,7 +2,7 @@ using Domain.Entities;
 using Shared.Request;
 using Shared.Response;
 
-namespace UseCase.UseCases.Interfaces;
+namespace Application.UseCases.Interfaces;
 
 public interface IUserUseCase
 {

@@ -28,6 +28,8 @@ public static class DependencyInjectionInfrastructure
         services.AddScoped<IUserRepository, UserRepository>();
         
         services.AddScoped<ICashFlowRepository, CashFlowRepository>();
+        
+        services.AddScoped<IExpenseRepository, ExpenseRepository>();
 
         return services;
     }

@@ -4,11 +4,10 @@
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>UseCase</RootNamespace>
+        <RootNamespace>Application</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="UseCases\Mapping\" />
       <Folder Include="Validations\" />
     </ItemGroup>
 
@@ -27,6 +26,21 @@
       <PackageReference Include="AutoMapper" Version="16.0.0" />
       <PackageReference Include="FluentValidation" Version="12.1.1" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Applications\Mapping\**" />
+      <Compile Remove="Applications\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Applications\Mapping\**" />
+      <EmbeddedResource Remove="Applications\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Applications\Mapping\**" />
+      <None Remove="Applications\**" />
     </ItemGroup>
 
 </Project>

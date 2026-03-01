@@ -1,7 +1,7 @@
+using Application.UseCases.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using UseCase.UseCases.Interfaces;
 
-namespace UseCase.UseCases;
+namespace Application.UseCases;
 
 public static class DependencyInjectionUseCases
 {
@@ -10,5 +10,7 @@ public static class DependencyInjectionUseCases
         services.AddScoped<IUserUseCase, UserUseCase>();
         
         services.AddScoped<ICashFlowUseCase, CashFlowUseCase>();
+        
+        services.AddScoped<IExpenseUseCase, ExpenseUseCase>();
     }
 }

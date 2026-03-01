@@ -1,6 +1,6 @@
+using Application.UseCases.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Request;
-using UseCase.UseCases.Interfaces;
 
 namespace CashRegister.Controllers;
 
@@ -13,5 +13,12 @@ public class CashFlowController(ICashFlowUseCase cashFlow) : ControllerBase
     {
         await cashFlow.CreateCashFlow(request);
         return Created();
+    }
+
+    [HttpGet("CashFlowAvailable")]
+    public async Task<IActionResult> GetCashFlowsAvailable()
+    {
+        var response = await cashFlow.GetCashFlowsAvailable();
+        return Ok(response);
     }
 }

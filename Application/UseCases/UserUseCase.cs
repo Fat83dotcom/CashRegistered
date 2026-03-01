@@ -1,17 +1,18 @@
+using Application.UseCases.Interfaces;
 using Domain.Entities;
 using Domain.Repositories;
 using Shared.Abstractions;
 using Shared.Request;
 using Shared.Response;
+using Shared.Validations;
 using Shared.ValueObjects;
-using UseCase.UseCases.Interfaces;
 
-namespace UseCase.UseCases;
+namespace Application.UseCases;
 
 public class UserUseCase(
     IUserRepository repository,
     IUnitOfWork unitOfWork
-) : IUserUseCase
+) : GeneralValidator, IUserUseCase
 {
     public async Task CreateUser(CreateUserRequest request)
     {

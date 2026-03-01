@@ -23,11 +23,12 @@ public class CashFlow : BaseEntity
 
     private void ValidateUserId(int userId)
     {
-        Validate(
-            userId,
-            new ValidateUserIdValidation(), error => new DomainException(error)
-        );
         UserId = userId;
+        Validate(
+            User,
+            new ValidateUserIdValidation()!,
+            error => new DomainException(error)
+        );
     }
 
     public void UpdateCurrentBalance(decimal? newValue)
@@ -45,9 +46,8 @@ public class CashFlow : BaseEntity
             
         Validate(
             this,
-            new CashFlowLinkedToUserValidation(),
+            new CashFlowLinkedToUserValidation()!,
             error => new DomainException(error)
         );
-        
     }
 }

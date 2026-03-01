@@ -43,5 +43,5 @@ public class UserRepository(CashRegisterDbContext context) : IUserRepository
     public Task<IEnumerable<GetAllUsersResponse>> GetUsers()
     {
         throw new NotImplementedException();
-    }
+    }  
 }

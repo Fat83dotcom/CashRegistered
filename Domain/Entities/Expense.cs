@@ -1,4 +1,6 @@
+using Domain.Validations;
 using Shared.Abstractions;
+using Shared.Exceptions;
 
 namespace Domain.Entities;
 
@@ -8,6 +10,13 @@ public class Expense : BaseEntity
     {
         ExpenseDescription = expenseDescription;
         ExpenseValue = expenseValue;
+        CashFlowId = cashFlowId;
+        
+        Validate(
+            this,
+            new ExpenseValidation()!,
+            error => new DomainException()
+        );
     }
 
     protected Expense() {}

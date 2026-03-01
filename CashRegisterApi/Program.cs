@@ -1,7 +1,7 @@
+using Application.Services;
+using Application.UseCases;
 using CashRegister.Middlewares;
 using Repository;
-using UseCase.Services;
-using UseCase.UseCases;
 
 var builder = WebApplication.CreateBuilder(args);
 

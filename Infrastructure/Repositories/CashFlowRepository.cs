@@ -1,7 +1,9 @@
 using System.Linq.Expressions;
 using Domain.Entities;
 using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Repository.Persistence;
+using Shared.Response;
 
 namespace Repository.Repositories;
 
@@ -17,9 +19,13 @@ public class CashFlowRepository(CashRegisterDbContext context) : ICashFlowReposi
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<CashFlow>> FindAsync(Expression<Func<CashFlow, bool>> predicate)
+    public async Task<IEnumerable<CashFlow>> FindAsync(Expression<Func<CashFlow, bool>> predicate)
     {
-        throw new NotImplementedException();
+        return await context.CashFlows
+            .Where(predicate)
+            .Include(cf => cf.Expenses)
+            .Include(cf => cf.User)
+            .ToArrayAsync();
     }
 
     public void Update(CashFlow entity)

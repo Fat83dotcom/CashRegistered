@@ -28,4 +28,11 @@ public class CashFlowController(ICashFlowUseCase cashFlow) : ControllerBase
         var response = await cashFlow.GetExpensesByCashFlowId(cashFlowId);
         return Ok(response);
     }
+
+    [HttpPut("AddCash")]
+    public async Task<IActionResult> AddCash([FromBody] AddCashRequest request)
+    {
+        await cashFlow.AddCash(request);
+        return Ok();
+    }
 }

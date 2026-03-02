@@ -8,14 +8,14 @@ public class GetExpensesByCashFlowIdResponse
 
     public int UserId { get; set; }
 
-    public Name UserName { get; set; }
+    public required Name UserName { get; set; }
 
     public IEnumerable<ExpenseValues>? ExpenseValues { get; set; }
 }
 
 public class ExpenseValues
 {
-    public string ExpenseDescription { get; set; }
+    public required string ExpenseDescription { get; set; }
 
     public decimal Value { get; set; }
 }

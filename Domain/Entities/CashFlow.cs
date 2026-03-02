@@ -33,19 +33,19 @@ public class CashFlow : BaseEntity
 
     public void DecreaseCurrentBalance(decimal? newValue)
     {
-        if (newValue is 0 or null) return;
+        ValidateUpdateCurrentBalance(newValue);
         CurrentBalance -= newValue;
         RegisterUpdate();
     }
 
     public void IncreaseCurrentBalance(decimal? newValue)
     {
-        if (newValue is 0 or null) return;
+        ValidateUpdateCurrentBalance(newValue);
         CurrentBalance += newValue;
         RegisterUpdate();
     }
 
-    public void CashFlowLinkedToUser(User? user)
+    public void ValidateCashFlowLinkedToUser(User? user)
     {
         if (user?.CashFlow == null) return;
 
@@ -56,5 +56,32 @@ public class CashFlow : BaseEntity
             new CashFlowLinkedToUserValidation()!,
             error => new DomainException(error)
         );
+    }
+
+    public static void ValidateCashFlowExists(CashFlow? targetCashFlow)
+    {
+        Validate(
+            targetCashFlow,
+            new NullableValidation<CashFlow>(),
+            error => new DomainException(error),
+            ["O fluxo de caixa informado não existe."]
+        );
+    }
+
+    private static void ValidateUpdateCurrentBalance(decimal? newValue)
+    {
+        switch (newValue)
+        {
+            case null:
+                throw new DomainException(
+                    message: "Um ou mais erros de validação de domínio ocorreram.",
+                    errors:["O valor não pode ser nulo."]    
+                );
+            case <= 0:
+                throw new DomainException(
+                    message: "Um ou mais erros de validação de domínio ocorreram.",
+                    errors:["O valor dever se maior que zero"]
+                );
+        }
     }
 }

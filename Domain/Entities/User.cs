@@ -30,7 +30,7 @@ public class User : BaseEntity
     
     public CashFlow? CashFlow { get; private set; }
 
-    public static void UserExists(User? targetUser)
+    public static void ValidateUserExists(User? targetUser)
     {
         Validate(
             targetUser,
@@ -40,7 +40,7 @@ public class User : BaseEntity
         );
     }
 
-    public void UserIdMatchCashFlow(int cashFlowId)
+    public void ValidateUserIdMatchCashFlow(int cashFlowId)
     {
         Validate(
             this,
@@ -49,7 +49,7 @@ public class User : BaseEntity
         );
     }
 
-    public void UserHasCashFlow()
+    public void ValidateUserHasCashFlow()
     {
         if (CashFlow == null)
         {

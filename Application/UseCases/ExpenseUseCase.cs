@@ -18,11 +18,11 @@ public class ExpenseUseCase(
     {
         var user = await userUseCase.GetUserById(request.UserId);
         
-        User.UserExists(user);
+        User.ValidateUserExists(user);
         
-        user!.UserHasCashFlow();
+        user!.ValidateUserHasCashFlow();
         
-        user.UserIdMatchCashFlow(request.CashFlowId);
+        user.ValidateUserIdMatchCashFlow(request.CashFlowId);
 
         var newExpense = new Expense(
             request.ExpenseDescription,

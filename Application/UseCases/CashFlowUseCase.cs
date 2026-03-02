@@ -19,11 +19,11 @@ public class CashFlowUseCase(
     {
         var targetUser = await userUseCase.GetUserById(request.UserId);
         
-        User.UserExists(targetUser);
+        User.ValidateUserExists(targetUser);
         
         var cashFlow = new CashFlow(request.UserId);
         
-        cashFlow.CashFlowLinkedToUser(targetUser);
+        cashFlow.ValidateCashFlowLinkedToUser(targetUser);
         
         await repository.CreateAsync(cashFlow);
         
@@ -43,11 +43,6 @@ public class CashFlowUseCase(
             }
         );
         return response;
-    }
-
-    public async Task<IEnumerable<CashFlow>> GetCashFlows()
-    {
-        return await repository.FindAsync(cashFlow => true);
     }
 
     public async Task<CashFlow?> GetCashFlowById(int cashFlowId)
@@ -82,5 +77,18 @@ public class CashFlowUseCase(
                 }
             );
         return response;
+    }
+
+    public async Task AddCash(AddCashRequest request)
+    {
+        var cashFlow = await GetCashFlowById(request.CashFlowId);
+        
+        CashFlow.ValidateCashFlowExists(cashFlow);
+        
+        cashFlow!.IncreaseCurrentBalance(request.Value);
+        
+        repository.Update(cashFlow);
+
+        await unitOfWork.CommitAsync();
     }
 }

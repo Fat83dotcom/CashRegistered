@@ -3,10 +3,10 @@ using FluentValidation;
 
 namespace Domain.Validations;
 
-public class ValidateUserIdValidation : AbstractValidator<User>
+public class ValidateUserIdValidation : AbstractValidator<CashFlow>
 {
     public ValidateUserIdValidation()
     {
-        RuleFor(user => user.Id).NotNull().NotEmpty().GreaterThan(0);
+        RuleFor(cashFlow => cashFlow.UserId).NotNull().NotEmpty().GreaterThan(0);
     }
 }

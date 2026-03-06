@@ -54,4 +54,13 @@ public class UserUseCase(
     {
         return await repository.GetByIdAsync(userId);
     }
+
+    public async Task<User> GetValidUserById(int userId)
+    {
+        var user = await GetUserById(userId);
+        
+        User.ValidateUserExists(user);
+
+        return user!;
+    }
 }

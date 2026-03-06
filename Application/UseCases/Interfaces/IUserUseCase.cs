@@ -13,4 +13,6 @@ public interface IUserUseCase
     public Task <IEnumerable<User>> GetUsersIncludeCashFlow();
     
     public Task<User?> GetUserById(int userId);
+    
+    public Task<User> GetValidUserById(int userId);
 }

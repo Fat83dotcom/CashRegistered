@@ -25,7 +25,7 @@ public class CashFlow : BaseEntity
     {
         UserId = userId;
         Validate(
-            User,
+            this,
             new ValidateUserIdValidation()!,
             error => new DomainException(error)
         );

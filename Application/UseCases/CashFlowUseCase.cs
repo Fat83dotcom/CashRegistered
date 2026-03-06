@@ -17,9 +17,7 @@ public class CashFlowUseCase(
 {
     public async Task CreateCashFlow(CreateCashFlowRequest request)
     {
-        var targetUser = await userUseCase.GetUserById(request.UserId);
-        
-        User.ValidateUserExists(targetUser);
+        var targetUser = await userUseCase.GetValidUserById(request.UserId);
         
         var cashFlow = new CashFlow(request.UserId);
         

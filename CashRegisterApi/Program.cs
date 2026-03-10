@@ -19,7 +19,19 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("allowFront", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") // A porta do seu React
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
+
+app.UseCors("allowFront");
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

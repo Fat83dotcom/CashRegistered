@@ -13,6 +13,5 @@ public interface IRepository<T> where T : BaseEntity
     
     void Update(T entity);
     
-    // Alterado de Remove para Delete
     void Delete(T entity);
 }

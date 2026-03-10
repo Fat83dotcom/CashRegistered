@@ -6,7 +6,9 @@ namespace Application.UseCases.Interfaces;
 
 public interface IUserUseCase
 {
-    public Task CreateUser(CreateUserRequest request);
+    public Task<CreateResponse> CreateUser(CreateUserRequest request);
+    
+    public Task DisableUser(int userId);
     
     public Task <IEnumerable<GetAllUsersResponse>> GetAllUsers();
     

@@ -27,12 +27,13 @@ public class UserRepository(CashRegisterDbContext context) : IUserRepository
         return await context.Users
             .Where(predicate)
             .Include(u => u.CashFlow)
+            .OrderDescending()
             .ToListAsync();
     }
 
     public void Update(User entity)
     {
-        throw new NotImplementedException();
+        context.Users.Update(entity);
     }
 
     public void Delete(User entity)

@@ -14,7 +14,7 @@ public class UserUseCase(
     IUnitOfWork unitOfWork
 ) : GeneralValidator, IUserUseCase
 {
-    public async Task CreateUser(CreateUserRequest request)
+    public async Task<CreateResponse> CreateUser(CreateUserRequest request)
     {
         Name name = new (request.FirstName,
             request.LastName
@@ -27,12 +27,27 @@ public class UserUseCase(
         
         await repository.CreateAsync(user);
         await unitOfWork.CommitAsync();
+
+        return new CreateResponse
+        {
+            Id = user.Id,
+        };
+    }
+    
+    public async Task DisableUser(int userId)
+    {
+        var user = await GetValidUserById(userId);
+        
+        user.Deactivate();
+        
+        repository.Update(user);
+        await unitOfWork.CommitAsync();
     }
 
     public async Task<IEnumerable<GetAllUsersResponse>> GetAllUsers()
     {
-        var allUsers = await repository.FindAsync(u => true);
-        IEnumerable<GetAllUsersResponse> selectedUsers = allUsers.Select(
+        var allUsers = await repository.FindAsync(u => u.IsActive);
+        var selectedUsers = allUsers.Select(
             user => new GetAllUsersResponse
             {
                 Id =  user.Id,

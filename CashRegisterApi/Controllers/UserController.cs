@@ -11,8 +11,8 @@ public class UserController(IUserUseCase user) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateUser(CreateUserRequest request)
     {
-        await user.CreateUser(request);
-        return Created();
+        var response = await user.CreateUser(request);
+        return Created(string.Empty, response);
     }
 
     [HttpGet]
@@ -20,5 +20,12 @@ public class UserController(IUserUseCase user) : ControllerBase
     {
         var result = await user.GetAllUsers();
         return Ok(result);
+    }
+
+    [HttpPut("Disable")]
+    public async Task<IActionResult> DisableUser([FromQuery] int userId)
+    {
+        await user.DisableUser(userId);
+        return Ok();
     }
 }

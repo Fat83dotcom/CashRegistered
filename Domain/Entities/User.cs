@@ -12,11 +12,21 @@ public class InClassName(User? user)
 
 public class User : BaseEntity
 {
-    public User(Name name, DateTime birthdate, string document)
+    public User(
+        Name name,
+        DateTime birthdate,
+        string document,
+        string email,
+        string password,
+        string userName
+    )
     {
         Name = name;
         Birthdate = birthdate;
         Document = document;
+        Email = email;
+        Password = password;
+        UserName = userName;
         
         Validate(this, new UserValidation()!, errors => new DomainException(errors));
     }
@@ -27,6 +37,12 @@ public class User : BaseEntity
     public DateTime Birthdate { get; private set; }
 
     public string Document { get; private set; }
+
+    public string Email { get; set; }
+
+    public string Password { get; set; }
+
+    public string UserName { get; set; }
     
     public CashFlow? CashFlow { get; private set; }
 

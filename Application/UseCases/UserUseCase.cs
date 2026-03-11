@@ -19,10 +19,13 @@ public class UserUseCase(
         Name name = new (request.FirstName,
             request.LastName
         );
-        Domain.Entities.User user = new (
+        User user = new (
             name,
             request.BirthDate,
-            request.Document
+            request.Document,
+            request.Email,
+            request.Password,
+            request.UserName
         );
         
         await repository.CreateAsync(user);
@@ -30,7 +33,7 @@ public class UserUseCase(
 
         return new CreateResponse
         {
-            Id = user.Id,
+            Id = user.Id
         };
     }
     

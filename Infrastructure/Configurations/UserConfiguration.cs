@@ -19,5 +19,15 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(user => user.Birthdate).IsRequired().HasColumnType("timestamp");
         
         builder.Property(user => user.Document).IsRequired().HasMaxLength(11);
+        
+        builder.Property(user => user.Email).IsRequired().HasMaxLength(50);
+        
+        builder.Property(user => user.Password).IsRequired().HasMaxLength(255);
+        
+        builder.Property(user => user.UserName).IsRequired().HasMaxLength(50);
+        
+        builder.HasIndex(user => user.Email).IsUnique();
+        
+        builder.HasIndex(user => user.UserName).IsUnique();
     }
 }

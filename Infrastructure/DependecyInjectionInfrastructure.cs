@@ -1,9 +1,11 @@
+using Domain.Interfaces;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Repository.Persistence;
 using Repository.Repositories;
+using Repository.Security;
 using Shared.Abstractions;
 
 namespace Repository;
@@ -23,8 +25,9 @@ public static class DependencyInjectionInfrastructure
 
         // Dentro do método AddInfrastructure
         services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<CashRegisterDbContext>());
-        
-        // Injeta os Repositórios (Linka a Interface com a Implementação)
+
+        services.AddScoped<IPasswordHasher, Argon2Services>();
+       
         services.AddScoped<IUserRepository, UserRepository>();
         
         services.AddScoped<ICashFlowRepository, CashFlowRepository>();

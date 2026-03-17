@@ -1,3 +1,4 @@
+using Domain.Interfaces;
 using Domain.Validations;
 using Shared.Abstractions;
 using Shared.Exceptions;
@@ -17,7 +18,7 @@ public class User : BaseEntity
         DateTime birthdate,
         string document,
         string email,
-        string password,
+        string rawPassword,
         string userName
     )
     {
@@ -25,7 +26,7 @@ public class User : BaseEntity
         Birthdate = birthdate;
         Document = document;
         Email = email;
-        Password = password;
+        RawPassword = rawPassword;
         UserName = userName;
         
         Validate(this, new UserValidation()!, errors => new DomainException(errors));
@@ -40,7 +41,9 @@ public class User : BaseEntity
 
     public string Email { get; set; }
 
-    public string Password { get; set; }
+    public string HashedPassword { get; set; }
+
+    public string RawPassword { get; set; }
 
     public string UserName { get; set; }
     
@@ -85,5 +88,16 @@ public class User : BaseEntity
             new ValidateUserCashFlowValidation(cashFlowId)!,
             errors => new DomainException(errors)
         );
+    }
+
+    public void HashPassword(IPasswordHasher hasher)
+    {
+        var passwordHashed = hasher.HashPassword(RawPassword);
+        HashedPassword = passwordHashed;
+    }
+
+    public bool AuthenticatePassword()
+    {
+        return true;
     }
 }

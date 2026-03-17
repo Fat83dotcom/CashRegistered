@@ -1,5 +1,6 @@
 using Application.UseCases.Interfaces;
 using Domain.Entities;
+using Domain.Interfaces;
 using Domain.Repositories;
 using Shared.Abstractions;
 using Shared.Request;
@@ -11,7 +12,8 @@ namespace Application.UseCases;
 
 public class UserUseCase(
     IUserRepository repository,
-    IUnitOfWork unitOfWork
+    IUnitOfWork unitOfWork,
+    IPasswordHasher hashServices
 ) : GeneralValidator, IUserUseCase
 {
     public async Task<CreateResponse> CreateUser(CreateUserRequest request)
@@ -27,6 +29,8 @@ public class UserUseCase(
             request.Password,
             request.UserName
         );
+        
+        user.HashPassword(hashServices);
         
         await repository.CreateAsync(user);
         await unitOfWork.CommitAsync();

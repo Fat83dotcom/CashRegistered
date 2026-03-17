@@ -10,7 +10,7 @@ public class Name : ValueObject
         FirstName = firstName;
         LastName = lastName;
         
-        Validate(this, new NameValidator(), errors => new DomainException(errors));
+        Validate(this, new NameValidator()!, errors => new DomainException(errors));
     }
     
     protected Name() { }

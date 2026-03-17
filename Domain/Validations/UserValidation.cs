@@ -33,7 +33,7 @@ public class UserValidation : AbstractValidator<User>
             .WithMessage("O nome de usuário é obrigatório.")
             .MaximumLength(50)
             .WithMessage("O nome de usuário deve conter no máximo 50 caracteres.");
-        RuleFor(user => user.Password)
+        RuleFor(user => user.RawPassword)
             .NotNull()
             .WithMessage("A senha é obrigatória.")
             .NotEmpty()

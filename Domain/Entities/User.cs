@@ -96,8 +96,8 @@ public class User : BaseEntity
         HashedPassword = passwordHashed;
     }
 
-    public bool AuthenticatePassword()
+    public bool AuthenticatePassword(IPasswordHasher hasher,  string password)
     {
-        return true;
+        return hasher.VerifyHash(password, HashedPassword);
     }
 }

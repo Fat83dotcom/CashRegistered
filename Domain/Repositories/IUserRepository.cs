@@ -1,9 +1,9 @@
+using Domain.Entities;
 using Shared.Abstractions;
-using Shared.Response;
 
 namespace Domain.Repositories;
 
-public interface IUserRepository : IRepository<Entities.User>
+public interface IUserRepository : IRepository<User>
 {
-    public Task<IEnumerable<GetAllUsersResponse>> GetUsers();
+    Task<User?> GetUserByEmail(string email);
 }

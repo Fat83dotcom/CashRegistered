@@ -6,15 +6,15 @@ namespace Application.UseCases.Interfaces;
 
 public interface IUserUseCase
 {
-    public Task<CreateResponse> CreateUser(CreateUserRequest request);
+    Task<CreateResponse> CreateUser(CreateUserRequest request);
     
-    public Task DisableUser(int userId);
+    Task DisableUser(int userId);
     
-    public Task <IEnumerable<GetAllUsersResponse>> GetAllUsers();
+    Task <IEnumerable<GetAllUsersResponse>> GetAllUsers();
     
-    public Task <IEnumerable<User>> GetUsersIncludeCashFlow();
+    Task<User?> GetUserById(int userId);
     
-    public Task<User?> GetUserById(int userId);
+    Task<User> GetValidUserById(int userId);
     
-    public Task<User> GetValidUserById(int userId);
+    Task<User> GetValidUserByEmail(string email);
 }

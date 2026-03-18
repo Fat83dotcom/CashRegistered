@@ -41,8 +41,10 @@ public class UserRepository(CashRegisterDbContext context) : IUserRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<GetAllUsersResponse>> GetUsers()
+    public async Task<User?> GetUserByEmail(string email)
     {
-        throw new NotImplementedException();
-    }  
+        return await context.Users
+            .Where(u => u.Email == email)
+            .FirstOrDefaultAsync();
+    }
 }

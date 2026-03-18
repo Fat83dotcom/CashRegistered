@@ -85,4 +85,13 @@ public class UserUseCase(
 
         return user!;
     }
+
+    public async Task<User> GetValidUserByEmail(string email)
+    {
+        var user = await repository.GetUserByEmail(email);
+        
+        User.ValidateUserExists(user);
+        
+        return user!;
+    }
 }

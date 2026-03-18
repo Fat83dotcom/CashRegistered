@@ -13,7 +13,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddUseCase();
 
-builder.Services.ConfigurationServices();
+builder.Services.ConfigurationServices(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -43,6 +43,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+    
 app.UseAuthorization();
 
 app.MapControllers();

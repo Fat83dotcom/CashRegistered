@@ -12,5 +12,9 @@ public static class DependencyInjectionUseCases
         services.AddScoped<ICashFlowUseCase, CashFlowUseCase>();
         
         services.AddScoped<IExpenseUseCase, ExpenseUseCase>();
+        
+        services.AddScoped<ILoginAppService, LoginAppService>();
+        
+        services.AddScoped<ITokenGenerator, TokenService>();
     }
 }

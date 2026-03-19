@@ -25,13 +25,12 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins("http://localhost:5173") // A porta do seu React
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
 var app = builder.Build();
-
-app.UseCors("allowFront");
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
@@ -42,6 +41,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("allowFront");
 
 app.UseAuthentication();
     

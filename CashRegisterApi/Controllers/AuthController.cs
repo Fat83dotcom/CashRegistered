@@ -1,4 +1,5 @@
 using Application.UseCases.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Request;
 
@@ -12,17 +13,25 @@ public class AuthController(ILoginAppService loginService) : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var token = await loginService.Login(request);
-        if (token.Length <= 0) return Unauthorized("Não autorizado.");
+        if (token.Length <= 0) return Unauthorized();
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
             Secure = true,
-            SameSite = SameSiteMode.Strict,
+            SameSite = SameSiteMode.None,
+            Path = "/",
             Expires = DateTime.UtcNow.AddHours(2)
         };
 
         Response.Cookies.Append("access_token", token, cookieOptions);
         
         return Ok();
+    }
+    
+    [HttpGet("verify")]
+    [Authorize]
+    public IActionResult Verify()
+    {
+        return Ok(); 
     }
 }

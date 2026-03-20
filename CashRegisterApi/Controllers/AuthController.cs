@@ -7,12 +7,13 @@ namespace CashRegister.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AuthController(ILoginAppService loginService) : ControllerBase
+public class AuthController(IAuthAppService authService) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var token = await loginService.Login(request);
+        var response = await authService.Login(request);
+        var token = response.AccessToken;
         if (token.Length <= 0) return Unauthorized();
         var cookieOptions = new CookieOptions
         {
@@ -25,7 +26,19 @@ public class AuthController(ILoginAppService loginService) : ControllerBase
 
         Response.Cookies.Append("access_token", token, cookieOptions);
         
-        return Ok();
+        return Ok(new {response.Id, response.UserName});
+    }
+    
+    [HttpPost("logout")]
+    [AllowAnonymous] 
+    public IActionResult Logout()
+    {
+        Response.Cookies.Delete("access_token", new CookieOptions
+        {
+            Path = "/"
+        });
+
+        return Ok(new { message = "Sessão encerrada com sucesso." });
     }
     
     [HttpGet("verify")]

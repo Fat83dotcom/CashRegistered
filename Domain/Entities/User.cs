@@ -98,6 +98,22 @@ public class User : BaseEntity
 
     public bool AuthenticatePassword(IPasswordHasher hasher,  string password)
     {
-        return hasher.VerifyHash(password, HashedPassword);
+        ValidationResultWrapper resultWrapper = new()
+        {
+            IsValid = hasher.VerifyHash(password, HashedPassword)
+        };
+
+        if (resultWrapper.IsValid) return true;
+        Validate(
+            resultWrapper,
+            new AuthUserPasswordValidation()!,
+            error => new DomainException(error)
+        );
+        return false;
     }
+}
+
+public class ValidationResultWrapper
+{
+    public bool IsValid { get; set; }
 }

@@ -13,7 +13,7 @@ public static class DependencyInjectionUseCases
         
         services.AddScoped<IExpenseUseCase, ExpenseUseCase>();
         
-        services.AddScoped<ILoginAppService, LoginAppService>();
+        services.AddScoped<IAuthAppService, AuthAppService>();
         
         services.AddScoped<ITokenGenerator, TokenService>();
     }

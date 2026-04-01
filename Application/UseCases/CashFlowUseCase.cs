@@ -36,7 +36,7 @@ public class CashFlowUseCase(
             {
                 Id = c.Id,
                 UserId =  c.UserId,
-                UserName = c.User!.Name,
+                UserName = c.User!.Person.Name,
                 CurrentBalance = c.CurrentBalance
             }
         );
@@ -64,7 +64,7 @@ public class CashFlowUseCase(
                 {
                     CashFlowId = c.Id,
                     UserId = c.UserId,
-                    UserName = c.User!.Name,
+                    UserName = c.User!.Person.Name,
                     ExpenseValues = c.Expenses?.Select<Expense, ExpenseValues>(e =>
                         new ExpenseValues
                         {

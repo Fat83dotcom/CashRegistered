@@ -44,7 +44,7 @@ public class UserRepository(CashRegisterDbContext context) : IUserRepository
     public async Task<User?> GetUserByEmail(string email)
     {
         return await context.Users
-            .Where(u => u.Email == email)
+            .Where(u => u.Person.Email == email)
             .FirstOrDefaultAsync();
     }
 }

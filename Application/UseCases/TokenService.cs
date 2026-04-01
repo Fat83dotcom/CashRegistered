@@ -20,7 +20,7 @@ public class TokenService(IConfiguration config) : ITokenGenerator
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim(JwtRegisteredClaimNames.Email, user.Person.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
@@ -29,7 +29,7 @@ public class TokenService(IConfiguration config) : ITokenGenerator
             issuer: config["Jwt:Issuer"],
             audience: config["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.Now.AddHours(2), // O token expira em 2 horas
+            expires: DateTime.Now.AddHours(2),
             signingCredentials: credentials);
 
         // 4. Retornar o token como uma string

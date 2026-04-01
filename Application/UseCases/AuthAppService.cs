@@ -16,17 +16,14 @@ public class AuthAppService(
     {
         var user = await userUseCase.GetValidUserByEmail(request.Email);
 
-        if (user.AuthenticatePassword(hasher, request.Password))
+        if (!user.AuthenticatePassword(hasher, request.Password))
+            return new LoginUserResponse();
+        
+        return new LoginUserResponse
         {
-            return new LoginUserResponse
-            {
-                AccessToken = tokenGenerator.GenerateToken(user),
-                Id = user.Id,
-                UserName = user.Name
-            };
-        }
-
-        return new LoginUserResponse();
-
+            AccessToken = tokenGenerator.GenerateToken(user),
+            Id = user.Id,
+            UserName = user.Person.Name
+        };
     }
 }

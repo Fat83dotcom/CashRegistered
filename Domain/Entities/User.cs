@@ -1,8 +1,8 @@
+using Domain.Enums;
 using Domain.Interfaces;
 using Domain.Validations;
 using Shared.Abstractions;
 using Shared.Exceptions;
-using Shared.ValueObjects;
 
 namespace Domain.Entities;
 
@@ -14,18 +14,10 @@ public class InClassName(User? user)
 public class User : BaseEntity
 {
     public User(
-        Name name,
-        DateTime birthdate,
-        string document,
-        string email,
         string rawPassword,
         string userName
     )
     {
-        Name = name;
-        Birthdate = birthdate;
-        Document = document;
-        Email = email;
         RawPassword = rawPassword;
         UserName = userName;
         
@@ -33,21 +25,19 @@ public class User : BaseEntity
     }
     protected User() {}
 
-    public Name Name { get; private set; }
-
-    public DateTime Birthdate { get; private set; }
-
-    public string Document { get; private set; }
-
-    public string Email { get; set; }
+    public int PersonId { get; set; }
 
     public string HashedPassword { get; set; }
 
     public string RawPassword { get; set; }
 
     public string UserName { get; set; }
+
+    public UserRole UserRole { get; set; }
     
     public CashFlow? CashFlow { get; private set; }
+
+    public Person Person { get; private set; }
 
     public static void ValidateUserExists(User? targetUser)
     {

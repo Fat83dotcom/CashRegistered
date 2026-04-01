@@ -7,19 +7,19 @@ public class UserValidation : AbstractValidator<User>
 {
     public UserValidation()
     {
-        RuleFor(user => user.Birthdate)
+        RuleFor(user => user.Person.Birthdate)
             .NotNull()
             .WithMessage("A data de nascimento é obrigatória.")
             .NotEmpty()
             .WithMessage("A data de nascimento é obrigatória.");
-        RuleFor(user => user.Document)
+        RuleFor(user => user.Person.Document)
             .NotNull()
             .WithMessage("O documento é obrigatório.")
             .NotEmpty()
             .WithMessage("O documento é obrigatório.")
             .Length(11)
             .WithMessage("O documento deve conter 11 caracteres.");
-        RuleFor(user => user.Email)
+        RuleFor(user => user.Person.Email)
             .NotNull()
             .WithMessage("O email é obrigatório.")
             .NotEmpty()

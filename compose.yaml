@@ -9,10 +9,13 @@
     ports:
       - "5432:5432"
     volumes:
-      - ./.containers/db:/var/lib/postgresql/data
+      - db_cash_register:/var/lib/postgresql/data
     networks:
       - cash_register-network
 
 networks:
   cash_register-network:
     driver: bridge
+
+volumes:
+  db_cash_register:

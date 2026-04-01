@@ -18,14 +18,7 @@ public class UserUseCase(
 {
     public async Task<CreateResponse> CreateUser(CreateUserRequest request)
     {
-        Name name = new (request.FirstName,
-            request.LastName
-        );
         User user = new (
-            name,
-            request.BirthDate,
-            request.Document,
-            request.Email,
             request.Password,
             request.UserName
         );
@@ -58,9 +51,9 @@ public class UserUseCase(
             user => new GetAllUsersResponse
             {
                 Id =  user.Id,
-                Name = user.Name,
-                Birthdate = user.Birthdate,
-                Document = user.Document
+                Name = user.Person.Name,
+                Birthdate = user.Person.Birthdate,
+                Document = user.Person.Document
             }
         );
         

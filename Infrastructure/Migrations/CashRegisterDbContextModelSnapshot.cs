@@ -100,7 +100,6 @@ namespace Repository.Migrations
                         .HasColumnType("timestamp");
 
                     b.Property<string>("CellPhone")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
@@ -125,12 +124,16 @@ namespace Repository.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Document")
+                        .IsUnique();
 
                     b.HasIndex("Email")
                         .IsUnique();

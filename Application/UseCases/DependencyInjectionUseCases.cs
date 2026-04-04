@@ -16,5 +16,7 @@ public static class DependencyInjectionUseCases
         services.AddScoped<IAuthAppService, AuthAppService>();
         
         services.AddScoped<ITokenGenerator, TokenService>();
+        
+        services.AddScoped<IPersonUseCase, PersonUseCase>();
     }
 }

@@ -7,25 +7,7 @@ public class UserValidation : AbstractValidator<User>
 {
     public UserValidation()
     {
-        RuleFor(user => user.Person.Birthdate)
-            .NotNull()
-            .WithMessage("A data de nascimento é obrigatória.")
-            .NotEmpty()
-            .WithMessage("A data de nascimento é obrigatória.");
-        RuleFor(user => user.Person.Document)
-            .NotNull()
-            .WithMessage("O documento é obrigatório.")
-            .NotEmpty()
-            .WithMessage("O documento é obrigatório.")
-            .Length(11)
-            .WithMessage("O documento deve conter 11 caracteres.");
-        RuleFor(user => user.Person.Email)
-            .NotNull()
-            .WithMessage("O email é obrigatório.")
-            .NotEmpty()
-            .WithMessage("O email é obrigatório.")
-            .MaximumLength(50)
-            .WithMessage("O email deve conter no máximo 50 caracteres.");
+        
         RuleFor(user => user.UserName)
             .NotNull()
             .WithMessage("O nome de usuário é obrigatório.")
@@ -40,5 +22,9 @@ public class UserValidation : AbstractValidator<User>
             .WithMessage("A senha é obrigatória.")
             .MinimumLength(12)
             .WithMessage("A senha deve conter no mínimo 12 caracteres.");
+        
+        RuleFor(user => user.PersonId)
+            .GreaterThan(0)
+            .WithMessage("O ID da pessoa é obrigatório e deve ser maior que zero.");
     }
 }

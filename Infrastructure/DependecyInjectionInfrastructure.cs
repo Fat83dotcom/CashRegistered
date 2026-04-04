@@ -17,13 +17,11 @@ public static class DependencyInjectionInfrastructure
         IConfiguration configuration
     )
     {
-        // 1. Configura o Banco de Dados (Postgres)
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         services.AddDbContext<CashRegisterDbContext>(options =>
             options.UseNpgsql(connectionString)); 
-
-        // Dentro do método AddInfrastructure
+        
         services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<CashRegisterDbContext>());
 
         services.AddScoped<IPasswordHasher, Argon2Services>();
@@ -33,6 +31,8 @@ public static class DependencyInjectionInfrastructure
         services.AddScoped<ICashFlowRepository, CashFlowRepository>();
         
         services.AddScoped<IExpenseRepository, ExpenseRepository>();
+        
+        services.AddScoped<IPersonRepository, PersonRepository>();
 
         return services;
     }

@@ -2,8 +2,8 @@ namespace Domain.Enums;
 
 public enum UserRole
 {
-    admin,
-    logistics,
-    financial,
-    comercial,
+    Admin,
+    Logistics,
+    Financial,
+    Business
 }

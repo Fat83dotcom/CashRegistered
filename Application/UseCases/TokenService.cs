@@ -17,12 +17,13 @@ public class TokenService(IConfiguration config) : ITokenGenerator
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         // 2. Criar as "Claims" (informações que vão dentro do token)
-        var claims = new[]
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, user.Person.Email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
+        Claim[] claims =
+        [
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.Email, user.Person.Email),
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new(ClaimTypes.Role, user.UserRole.ToString())
+        ];
 
         // 3. Montar o token em si
         var token = new JwtSecurityToken(

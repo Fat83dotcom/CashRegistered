@@ -10,6 +10,8 @@ public interface IUserUseCase
     
     Task DisableUser(int userId);
     
+    Task ChangePassword(int userId, ChangePasswordRequest request);
+    
     Task <IEnumerable<GetAllUsersResponse>> GetAllUsers();
     
     Task<User?> GetUserById(int userId);
@@ -17,4 +19,6 @@ public interface IUserUseCase
     Task<User> GetValidUserById(int userId);
     
     Task<User> GetValidUserByEmail(string email);
+    
+    Task<User> GetValidUserByUserName(string userName);
 }

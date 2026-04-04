@@ -14,12 +14,16 @@ public class InClassName(User? user)
 public class User : BaseEntity
 {
     public User(
+        int personId,
         string rawPassword,
-        string userName
+        string userName,
+        UserRole userRole
     )
     {
+        PersonId = personId;
         RawPassword = rawPassword;
         UserName = userName;
+        UserRole = userRole;
         
         Validate(this, new UserValidation()!, errors => new DomainException(errors));
     }
@@ -45,10 +49,19 @@ public class User : BaseEntity
             targetUser,
             new NullableValidation<User>(),
             errors => new DomainException(errors),
-        new List<string> {"O usuário não existe."}
+            ["O usuário não existe."]
         );
     }
 
+    public void ValidateUniqueUser(bool userNameExists, bool personAlreadyHasUser)
+    {
+        Validate(
+            this,
+            new UserUniqueValidation(userNameExists, personAlreadyHasUser)!,
+            errors => new DomainException(errors)
+        );
+    }
+    
     public void ValidateUserIdMatchCashFlow(int cashFlowId)
     {
         Validate(
@@ -84,6 +97,12 @@ public class User : BaseEntity
     {
         var passwordHashed = hasher.HashPassword(RawPassword);
         HashedPassword = passwordHashed;
+    }
+
+    public void UpdatePassword(string newPassword, IPasswordHasher hasher)
+    {
+        RawPassword = newPassword;
+        HashPassword(hasher);
     }
 
     public bool AuthenticatePassword(IPasswordHasher hasher,  string password)

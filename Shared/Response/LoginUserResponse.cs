@@ -10,4 +10,6 @@ public class LoginUserResponse
 
     public Name? UserName { get; set; }
 
+    public string Role { get; set; } = string.Empty;
+
 }

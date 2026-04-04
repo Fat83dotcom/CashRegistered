@@ -26,7 +26,7 @@ public class AuthController(IAuthAppService authService) : ControllerBase
 
         Response.Cookies.Append("access_token", token, cookieOptions);
         
-        return Ok(new {response.Id, response.UserName});
+        return Ok(new {response.Id, response.UserName, response.Role});
     }
     
     [HttpPost("logout")]

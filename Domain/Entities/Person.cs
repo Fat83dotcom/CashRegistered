@@ -1,6 +1,8 @@
 using Domain.Enums;
+using Domain.Validations;
 using Domain.ValueObjects;
 using Shared.Abstractions;
+using Shared.Exceptions;
 using Shared.ValueObjects;
 
 namespace Domain.Entities;
@@ -8,22 +10,29 @@ namespace Domain.Entities;
 public class Person : BaseEntity
 {
     public Person(
-        Name name,
+        string firstName,
+        string lastName,
         string document,
         DateTime birthdate,
         string email,
         string cellPhone,
         string phone,
-        Gender gender
+        string gender
     )
     {
-        Name = name;
+        Name = new Name(firstName, lastName);
         Document = document;
         Birthdate = birthdate;
         Email = email;
         CellPhone = cellPhone;
         Phone = phone;
-        Gender = gender;
+        Gender = Enum.TryParse(gender, out Gender result) ? result : Gender.Other;
+        
+        Validate(
+            this,
+            new PersonValidation()!,
+            errors => new DomainException(errors)
+        );
     }
     protected Person(){}
     public Name Name { get; set; }
@@ -41,6 +50,7 @@ public class Person : BaseEntity
     public Gender Gender { get; set; }
     
     private readonly List<Address> _addresses = new();
+    
     public IReadOnlyCollection<Address> Addresses => _addresses.AsReadOnly();
 
     public void UpdateContactInfo(string email, string phone)
@@ -54,5 +64,24 @@ public class Person : BaseEntity
     {
         _addresses.Add(address);
         RegisterUpdate();
+    }
+
+    public static void ValidatePersonExists(Person? targetPerson)
+    {
+        Validate(
+            targetPerson,
+            new NullableValidation<Person>(),
+            errors => new DomainException(errors),
+            ["A pessoa não existe."]
+        );
+    }
+
+    public void ValidateUniquePerson(bool documentExists)
+    {
+        Validate(
+            this,
+            new PersonUniqueValidation(documentExists)!,
+            errors => new DomainException(errors)
+        );
     }
 }

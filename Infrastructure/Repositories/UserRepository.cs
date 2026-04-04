@@ -19,6 +19,7 @@ public class UserRepository(CashRegisterDbContext context) : IUserRepository
        return await context.Users
            .Where(u => u.Id == id)
            .Include(u => u.CashFlow)
+           .Include(u => u.Person)
            .FirstOrDefaultAsync();
     }
 
@@ -27,7 +28,7 @@ public class UserRepository(CashRegisterDbContext context) : IUserRepository
         return await context.Users
             .Where(predicate)
             .Include(u => u.CashFlow)
-            .OrderDescending()
+            .Include(u => u.Person)
             .ToListAsync();
     }
 
@@ -38,13 +39,22 @@ public class UserRepository(CashRegisterDbContext context) : IUserRepository
 
     public void Delete(User entity)
     {
-        throw new NotImplementedException();
+        context.Users.Remove(entity);
     }
 
     public async Task<User?> GetUserByEmail(string email)
     {
         return await context.Users
+            .Include(u => u.Person)
             .Where(u => u.Person.Email == email)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<User?> GetUserByUserName(string userName)
+    {
+        return await context.Users
+            .Include(u => u.Person)
+            .Where(u => u.UserName == userName)
             .FirstOrDefaultAsync();
     }
 }

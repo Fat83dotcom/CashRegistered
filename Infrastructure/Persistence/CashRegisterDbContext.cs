@@ -12,6 +12,8 @@ public class CashRegisterDbContext(DbContextOptions<CashRegisterDbContext> optio
     
     public DbSet<Expense> Expenses { get; set; }
     
+    public DbSet<Person> People { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Aplica todas as configurações (Configurations) definidas neste assembly

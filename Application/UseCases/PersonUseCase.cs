@@ -1,13 +1,53 @@
 using Application.UseCases.Interfaces;
+using Domain.Entities;
+using Domain.Repositories;
+using Shared.Abstractions;
+using Shared.Exceptions;
 using Shared.Request;
 using Shared.Validations;
 
 namespace Application.UseCases;
 
-public class PersonUseCase : GeneralValidator, IPersonUseCase
+public class PersonUseCase(
+    IPersonRepository repository,
+    IUnitOfWork unitOfWork) : GeneralValidator, IPersonUseCase
 {
-    public Task<CreateResponse> CreatePerson(CreatePersonRequest request)
+    public async Task<CreateResponse> CreatePerson(CreatePersonRequest request)
     {
-        throw new NotImplementedException();
+        var person = new Person(
+            request.FirstName,
+            request.LastName,
+            request.Document,
+            request.BirthDate,
+            request.Email,
+            request.CellPhone,
+            request.Phone,
+            request.Gender
+        );
+        var existingPerson = await repository.GetPersonByDocument(person.Document);
+
+        person.ValidateUniquePerson(existingPerson != null);
+
+        await repository.CreateAsync(person);
+        await unitOfWork.CommitAsync();
+
+        return new CreateResponse
+        {
+            Id = person.Id
+        };
+    }
+    public Task<Person?> GetPersonByEmail(string email)
+    {
+        return repository.GetPersonByEmail(email);
+    }
+
+    public Task<Person?> GetPersonByDocument(string document)
+    {
+        return repository.GetPersonByDocument(document);
+    }
+
+    public Task<IEnumerable<Person>> GetAllPeople()
+    {
+        return repository.FindAsync(p => true);
     }
 }

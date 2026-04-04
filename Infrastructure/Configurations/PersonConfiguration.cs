@@ -10,6 +10,8 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
     {
         builder.ToTable("People");
         
+        builder.HasKey(person => person.Id);
+        
         builder.OwnsOne(person => person.Name, name =>
         {
             name.Property(u => u.FirstName).IsRequired().HasMaxLength(20);
@@ -26,8 +28,12 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
         
         builder.Property(person => person.Email).IsRequired().HasMaxLength(50);
         
+        builder.Property(person => person.Phone).IsRequired().HasMaxLength(11);
+
+        builder.Property(person => person.CellPhone).IsRequired(false);
+        
         builder.HasIndex(person => person.Email).IsUnique();
         
-
+        builder.HasIndex(person => person.Document).IsUnique();
     }
 }

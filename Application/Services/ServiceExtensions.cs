@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text;
+using Domain.Enums;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -48,5 +49,26 @@ public static class ServiceExtensions
                     }
                 };
             });
+        services.AddAuthorizationBuilder()
+            .AddPolicy("AdminOnly", policy => 
+                policy.RequireRole(UserRole.Admin.ToString()))
+            
+            .AddPolicy("FinancialOnly", policy => 
+                policy.RequireRole(
+                    UserRole.Financial.ToString(), 
+                    UserRole.Admin.ToString()
+                ))
+            
+            .AddPolicy("LogisticsOnly", policy => 
+                policy.RequireRole(
+                    UserRole.Logistics.ToString(), 
+                    UserRole.Admin.ToString()
+                ))
+            
+            .AddPolicy("ComercialOnly", policy => 
+            policy.RequireRole(
+                UserRole.Business.ToString(), 
+                UserRole.Admin.ToString()
+            ));
     }
 }

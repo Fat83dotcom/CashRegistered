@@ -14,7 +14,7 @@ public class AuthAppService(
 {
     public async Task<LoginUserResponse> Login(LoginRequest request)
     {
-        var user = await userUseCase.GetValidUserByEmail(request.Email);
+        var user = await userUseCase.GetValidUserByUserName(request.UserName);
 
         if (!user.AuthenticatePassword(hasher, request.Password))
             return new LoginUserResponse();
@@ -23,7 +23,8 @@ public class AuthAppService(
         {
             AccessToken = tokenGenerator.GenerateToken(user),
             Id = user.Id,
-            UserName = user.Person.Name
+            UserName = user.Person.Name,
+            Role = user.UserRole.ToString()
         };
     }
 }

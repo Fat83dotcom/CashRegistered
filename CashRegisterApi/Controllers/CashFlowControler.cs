@@ -1,4 +1,5 @@
 using Application.UseCases.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Request;
 
@@ -9,6 +10,7 @@ namespace CashRegister.Controllers;
 public class CashFlowController(ICashFlowUseCase cashFlow) : ControllerBase
 {
     [HttpPost]
+    [Authorize(Policy = "ComercialOnly")]
     public async Task<IActionResult> CreateCashFlow([FromBody] CreateCashFlowRequest request)
     {
         await cashFlow.CreateCashFlow(request);
@@ -16,6 +18,7 @@ public class CashFlowController(ICashFlowUseCase cashFlow) : ControllerBase
     }
 
     [HttpGet("CashFlowAvailable")]
+    [Authorize(Policy = "FinancialOnly")]
     public async Task<IActionResult> GetCashFlowsAvailable()
     {
         var response = await cashFlow.GetCashFlowsAvailable();
@@ -23,6 +26,7 @@ public class CashFlowController(ICashFlowUseCase cashFlow) : ControllerBase
     }
 
     [HttpGet("GetExpensesByCashFlowIdId/")]
+    [Authorize(Policy = "FinancialOnly")]
     public async Task<IActionResult> GetExpensesByCashFlowId([FromQuery] int cashFlowId)
     {
         var response = await cashFlow.GetExpensesByCashFlowId(cashFlowId);
@@ -30,6 +34,7 @@ public class CashFlowController(ICashFlowUseCase cashFlow) : ControllerBase
     }
 
     [HttpPut("AddCash")]
+    [Authorize(Policy = "ComercialOnly")]
     public async Task<IActionResult> AddCash([FromBody] AddCashRequest request)
     {
         await cashFlow.AddCash(request);

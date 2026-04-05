@@ -1,14 +1,17 @@
-using Domain.Interfaces;
-using Domain.Repositories;
+using Domain.Financial.Repositories;
+using Domain.Identity.Repositories;
+using Domain.Security.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Repository.Persistence;
-using Repository.Repositories;
-using Repository.Security;
+using Infrastructure.Financial.Repositories;
+using Infrastructure.Identity.Repositories;
+using Infrastructure.Persistence;
+using Infrastructure.Security.Services;
+using Shared.Notifications;
 using Shared.Abstractions;
 
-namespace Repository;
+namespace Infrastructure;
 
 public static class DependencyInjectionInfrastructure
 {
@@ -17,6 +20,8 @@ public static class DependencyInjectionInfrastructure
         IConfiguration configuration
     )
     {
+        services.AddScoped<NotificationContext>();
+        
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         services.AddDbContext<CashRegisterDbContext>(options =>

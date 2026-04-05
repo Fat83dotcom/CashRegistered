@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Repository.Persistence;
+using Infrastructure.Persistence;
 
 #nullable disable
 
-namespace Repository.Migrations
+namespace Infrastructure.Migrations
 {
     [DbContext(typeof(CashRegisterDbContext))]
     partial class CashRegisterDbContextModelSnapshot : ModelSnapshot

@@ -20,3 +20,10 @@ This directory contains the backend of the Cash Register system, built with ASP.
 - Business rules belong in the `Domain` or `Application` layers.
 - Do not add infrastructure dependencies to the `Domain` layer.
 - Use `Shared` for cross-cutting abstractions.
+
+## Status Atual / Próximos Passos
+- **Implementado:** Endpoint `ChangePassword` no `UserController` utilizando extração segura de ID do Token JWT.
+- **Implementado:** Validações de unicidade para Usuários e Pessoas no banco de dados.
+- **Implementado:** Middleware de tratamento de exceções global.
+- **Próximos Passos:** Implementar lógica de persistência e regras de negócio para os novos domínios do ERP (Estoque, Vendas, Financeiro).
+- **Próximos Passos:** Revisar os UseCases para garantir que a injeção de dependência siga a regra de não injetar repositórios cruzados.

@@ -1,13 +1,22 @@
+using Application;
 using Application.Services;
-using Application.UseCases;
+using Application.Identity.UseCases;
+using Application.Security.UseCases;
+using Application.Financial.UseCases;
 using CashRegister.Middlewares;
-using Repository;
+using CashRegisterApi.Middlewares;
+using Infrastructure;
+
+using CashRegisterApi.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // --- 1. SEÇÃO DE SERVIÇOS (Injeção de Dependência) ---
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<NotificationFilter>();
+});
 
 builder.Services.AddInfrastructure(builder.Configuration);
 

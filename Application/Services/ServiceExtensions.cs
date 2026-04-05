@@ -1,6 +1,6 @@
 using System.Reflection;
 using System.Text;
-using Domain.Enums;
+using Domain.Identity.Enums;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;

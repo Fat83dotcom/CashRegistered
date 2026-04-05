@@ -2,7 +2,7 @@ using System.Net;
 using System.Text.Json;
 using Shared.Exceptions;
 
-namespace CashRegister.Middlewares;
+namespace CashRegisterApi.Middlewares;
 
 public class ExceptionHandlingMiddleware
 {

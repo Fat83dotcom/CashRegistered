@@ -16,6 +16,7 @@ This directory contains the backend of the Cash Register system, built with ASP.
 - **Security:** Argon2 for password hashing.
 
 ## Guidelines for Gemini
+- **Logging:** Registrar todas as alterações técnicas e decisões no arquivo `../BACKEND_LOG.txt`.
 - Maintain strict separation of concerns between layers.
 - Business rules belong in the `Domain` or `Application` layers.
 - Do not add infrastructure dependencies to the `Domain` layer.

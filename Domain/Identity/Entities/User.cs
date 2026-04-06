@@ -105,7 +105,7 @@ public class User : BaseEntity
         if (hasher.VerifyHash(password, HashedPassword))
             return true;
 
-        AddNotification("Password", "Senha atual incorreta.");
+        AddNotification("Login", "Usuário ou senha inválidos.");
         return false;
     }
 
@@ -118,6 +118,12 @@ public class User : BaseEntity
     public static void ValidateUserExists(User? targetUser, NotificationContext notificationContext)
     {
         if (targetUser == null)
-            notificationContext.AddNotification("User", "O usuário não existe.");
+            notificationContext.AddNotification("Usuário", "O usuário não existe.");
+    }
+    
+    public static void ValidateUserLoginExists(User? targetUser, NotificationContext notificationContext)
+    {
+        if (targetUser == null)
+            notificationContext.AddNotification("Login", "Usuário ou senha inválidos.");
     }
 }

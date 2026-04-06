@@ -167,11 +167,18 @@ public class UserUseCase(
         return user!;
     }
 
-    public async Task<User> GetValidUserByUserName(string userName)
+    public async Task<User?> GetUserByUserName(string userName)
     {
         var user = await repository.GetUserByUserName(userName);
         User.ValidateUserExists(user, notificationContext);
         return user!;
+    }
+
+    public async Task<User?> GetUserLoginByUserName(string userName)
+    {
+        var user = await repository.GetUserByUserName(userName);
+        User.ValidateUserLoginExists(user, notificationContext);
+        return user;
     }
 
     public async Task<PagedResponse<GetAllUsersResponse>> SearchUsers(SearchUserRequest request)

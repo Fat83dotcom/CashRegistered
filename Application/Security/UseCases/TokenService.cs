@@ -15,11 +15,9 @@ public class TokenService(IConfiguration config) : ITokenGenerator
 {
     public string GenerateToken(User user)
     {
-        // 1. Pegar a chave secreta do appsettings.json
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-        // 2. Criar as "Claims" (informações que vão dentro do token)
+        
         Claim[] claims =
         [
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
@@ -27,8 +25,7 @@ public class TokenService(IConfiguration config) : ITokenGenerator
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new(ClaimTypes.Role, user.UserRole.ToString())
         ];
-
-        // 3. Montar o token em si
+        
         var token = new JwtSecurityToken(
             issuer: config["Jwt:Issuer"],
             audience: config["Jwt:Audience"],
@@ -36,7 +33,6 @@ public class TokenService(IConfiguration config) : ITokenGenerator
             expires: DateTime.Now.AddHours(2),
             signingCredentials: credentials);
 
-        // 4. Retornar o token como uma string
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

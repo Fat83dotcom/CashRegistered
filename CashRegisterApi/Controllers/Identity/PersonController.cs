@@ -3,47 +3,50 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Identity.Request;
 
-namespace CashRegister.Controllers.Identity;
+namespace CashRegisterApi.Controllers.Identity;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PersonController(IPersonUseCase personUseCase) : ControllerBase
+public class PersonController(IPersonUseCase person) : ControllerBase
 {
     [HttpPost]
     [Authorize(Policy = "AdminOnly")]
-    public async Task<IActionResult> Create([FromBody] CreatePersonRequest request)
+    public async Task<IActionResult> CreatePerson(CreatePersonRequest request)
     {
-        var response = await personUseCase.CreatePerson(request);
-        return Ok(response);
+        var response = await person.CreatePerson(request);
+        return Created(string.Empty, response);
     }
 
     [HttpGet]
     [Authorize(Policy = "AdminOnly")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetPeople()
     {
-        // Agora seguindo rigorosamente o fluxo de Use Case
-        var people = await personUseCase.GetAllPeople();
-        var result = people.Select(p => new {
+        var result = await person.GetAllPeople();
+        var response = result.Select(p => new
+        {
             p.Id,
             p.Name,
-            p.Document
+            p.TaxId,
+            p.Email,
+            p.Phone,
+            p.Gender
         });
+        return Ok(response);
+    }
+
+    [HttpGet("email")]
+    [Authorize(Policy = "AdminOnly")]
+    public async Task<IActionResult> GetPersonByEmail([FromQuery] string email)
+    {
+        var result = await person.GetPersonByEmail(email);
         return Ok(result);
     }
 
-    [HttpGet("email/{email}")]
+    [HttpGet("taxid")]
     [Authorize(Policy = "AdminOnly")]
-    public async Task<IActionResult> GetByEmail(string email)
+    public async Task<IActionResult> GetPersonByTaxId([FromQuery] string taxId)
     {
-        var person = await personUseCase.GetPersonByEmail(email);
-        return Ok(person);
-    }
-
-    [HttpGet("document/{document}")]
-    [Authorize(Policy = "AdminOnly")]
-    public async Task<IActionResult> GetByDocument(string document)
-    {
-        var person = await personUseCase.GetPersonByDocument(document);
-        return Ok(person);
+        var result = await person.GetPersonByTaxId(taxId);
+        return Ok(result);
     }
 }

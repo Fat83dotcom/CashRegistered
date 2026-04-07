@@ -15,12 +15,18 @@ public class PersonRepository(CashRegisterDbContext context) : IPersonRepository
 
     public async Task<Person?> GetByIdAsync(int id)
     {
-        return await context.People.FindAsync(id);
+        return await context.People
+            .Where(p => p.Id == id)
+            .Include(p => p.Addresses)
+            .FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<Person>> FindAsync(Expression<Func<Person, bool>> predicate)
     {
-        return await context.People.Where(predicate).ToListAsync();
+        return await context.People
+            .Where(predicate)
+            .Include(p => p.Addresses)
+            .ToListAsync();
     }
 
     public void Update(Person entity)
@@ -36,14 +42,14 @@ public class PersonRepository(CashRegisterDbContext context) : IPersonRepository
     public async Task<Person?> GetPersonByEmail(string email)
     {
         return await context.People
-            .Where(p => p.Email == email
-            ).FirstOrDefaultAsync();
+            .Where(p => p.Email == email)
+            .FirstOrDefaultAsync();
     }
 
-    public async Task<Person?> GetPersonByDocument(string document)
+    public async Task<Person?> GetPersonByTaxId(string taxId)
     {
         return await context.People
-            .Where(p => p.Document == document
-            ).FirstOrDefaultAsync();
+            .Where(p => p.TaxId == taxId)
+            .FirstOrDefaultAsync();
     }
 }

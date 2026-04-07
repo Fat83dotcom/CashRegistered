@@ -8,7 +8,7 @@ public class CreateUserRequest
     
     public DateTime? BirthDate { get; set; }
     
-    public string? Document { get; set; }
+    public string? TaxId { get; set; }
 
     public string? Email { get; set; }
 

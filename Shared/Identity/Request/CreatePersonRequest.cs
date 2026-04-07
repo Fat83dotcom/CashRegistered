@@ -2,19 +2,16 @@ namespace Shared.Identity.Request;
 
 public class CreatePersonRequest
 {
+    public int PersonType { get; set; } = 1; // 1 = Physical, 2 = Legal
     public string FirstName { get; set; } = null!;
-    
     public string LastName { get; set; } = null!;
-    
+    public string TaxId { get; set; } = null!; // CPF or CNPJ
+    public string? TradeName { get; set; }
+    public string? StateRegistration { get; set; }
+    public string? MunicipalRegistration { get; set; }
     public DateTime BirthDate { get; set; }
-    
-    public string Document { get; set; } = null!;
-
     public string Email { get; set; } = null!;
-
     public string CellPhone { get; set; } = null!;
-
     public string Phone { get; set; } = null!;
-
-    public string Gender{ get; set; } = null!;
+    public string Gender { get; set; } = null!;
 }

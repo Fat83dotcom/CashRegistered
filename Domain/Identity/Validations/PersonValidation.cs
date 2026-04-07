@@ -23,26 +23,19 @@ public class PersonValidation : AbstractValidator<Person>
             .WithMessage("A data de nascimento é obrigatória.")
             .NotEmpty()
             .WithMessage("A data de nascimento é obrigatória.");
-        RuleFor(person => person.Document)
+        RuleFor(person => person.TaxId)
             .NotNull()
-            .WithMessage("O documento é obrigatório.")
+            .WithMessage("O CPF/CNPJ é obrigatório.")
             .NotEmpty()
-            .WithMessage("O documento é obrigatório.")
-            .Length(11)
-            .WithMessage("O documento deve conter 11 caracteres.");
+            .WithMessage("O CPF/CNPJ é obrigatório.")
+            .MaximumLength(14)
+            .WithMessage("O CPF/CNPJ deve conter no máximo 14 caracteres.");
         RuleFor(person => person.Email)
             .NotNull()
             .WithMessage("O email é obrigatório.")
             .NotEmpty()
             .WithMessage("O email é obrigatório.")
-            .MaximumLength(50)
-            .WithMessage("O email deve conter no máximo 50 caracteres.");
-        RuleFor(person => person.Phone)
-            .NotNull()
-            .WithMessage("O telefone é obrigatório.")
-            .NotEmpty()
-            .WithMessage("O telefone é obrigatório.")
-            .Length(11)
-            .WithMessage("O telefone deve conter 11 dígitos.");
+            .MaximumLength(100)
+            .WithMessage("O email deve conter no máximo 100 caracteres.");
     }
 }

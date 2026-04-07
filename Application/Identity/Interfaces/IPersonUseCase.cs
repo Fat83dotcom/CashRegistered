@@ -13,7 +13,7 @@ public interface IPersonUseCase
     
     Task<Person?> GetPersonByEmail(string email);
     
-    Task<Person?> GetPersonByDocument(string document);
+    Task<Person?> GetPersonByTaxId(string taxId);
 
     Task<IEnumerable<Person>> GetAllPeople();
 }

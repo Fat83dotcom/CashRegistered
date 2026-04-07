@@ -52,8 +52,8 @@ public class UserRepository(CashRegisterDbContext context) : IUserRepository
             .Where(u => string.IsNullOrWhiteSpace(request.Name) || 
                         u.Person.Name.FirstName.ToLower().Contains(request.Name.ToLower()) || 
                         u.Person.Name.LastName.ToLower().Contains(request.Name.ToLower()))
-            .Where(u => string.IsNullOrWhiteSpace(request.Document) || 
-                        u.Person.Document.Contains(request.Document))
+            .Where(u => string.IsNullOrWhiteSpace(request.TaxId) || 
+                        u.Person.TaxId.Contains(request.TaxId))
             .Where(u => !request.BirthDate.HasValue || 
                         u.Person.Birthdate.Date == request.BirthDate.Value.Date)
             .ToPagedResponseAsync(request.Page, request.PageSize);

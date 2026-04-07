@@ -12,28 +12,53 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
         
         builder.HasKey(person => person.Id);
         
+        builder.Property(person => person.PersonType)
+            .IsRequired()
+            .HasConversion<int>();
+
         builder.OwnsOne(person => person.Name, name =>
         {
-            name.Property(u => u.FirstName).IsRequired().HasMaxLength(20);
-            name.Property(u => u.LastName).IsRequired(false).HasMaxLength(20);
+            name.Property(u => u.FirstName).IsRequired().HasMaxLength(100);
+            name.Property(u => u.LastName).IsRequired(false).HasMaxLength(100);
         });
+
+        builder.Property(person => person.TaxId)
+            .IsRequired()
+            .HasMaxLength(14); // CPF or CNPJ
+        
+        builder.Property(person => person.TradeName)
+            .IsRequired(false)
+            .HasMaxLength(200);
+
+        builder.Property(person => person.StateRegistration)
+            .IsRequired(false)
+            .HasMaxLength(20);
+
+        builder.Property(person => person.MunicipalRegistration)
+            .IsRequired(false)
+            .HasMaxLength(20);
 
         builder.Property(person => person.Gender)
             .IsRequired()
             .HasConversion<string>();
         
-        builder.Property(person => person.Birthdate).IsRequired().HasColumnType("timestamp");
+        builder.Property(person => person.Birthdate)
+            .IsRequired()
+            .HasColumnType("timestamp");
         
-        builder.Property(person => person.Document).IsRequired().HasMaxLength(11);
+        builder.Property(person => person.Email)
+            .IsRequired()
+            .HasMaxLength(100);
         
-        builder.Property(person => person.Email).IsRequired().HasMaxLength(50);
-        
-        builder.Property(person => person.Phone).IsRequired().HasMaxLength(11);
+        builder.Property(person => person.Phone)
+            .IsRequired(false)
+            .HasMaxLength(20);
 
-        builder.Property(person => person.CellPhone).IsRequired(false);
+        builder.Property(person => person.CellPhone)
+            .IsRequired(false)
+            .HasMaxLength(20);
         
         builder.HasIndex(person => person.Email).IsUnique();
-        
-        builder.HasIndex(person => person.Document).IsUnique();
+        builder.HasIndex(person => person.TaxId).IsUnique();
     }
 }

@@ -8,5 +8,5 @@ public interface IPersonRepository : IRepository<Person>
 {
     Task<Person?> GetPersonByEmail(string email);
     
-    Task<Person?> GetPersonByDocument(string document);
+    Task<Person?> GetPersonByTaxId(string taxId);
 }

@@ -6,10 +6,10 @@ namespace Domain.Identity.Validations;
 
 public class PersonUniqueValidation : AbstractValidator<Person>
 {
-    public PersonUniqueValidation(bool documentExists)
+    public PersonUniqueValidation(bool taxIdExists)
     {
-        RuleFor(x => x.Document)
-            .Must(_ => !documentExists)
-            .WithMessage("Já existe uma pessoa cadastrada com este documento.");
+        RuleFor(x => x.TaxId)
+            .Must(_ => !taxIdExists)
+            .WithMessage("Já existe uma pessoa cadastrada com este CPF/CNPJ.");
     }
 }

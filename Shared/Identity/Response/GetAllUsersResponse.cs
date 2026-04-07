@@ -10,5 +10,5 @@ public class GetAllUsersResponse
 
     public DateTime Birthdate { get; set; }
 
-    public string? Document { get; set; } = string.Empty;
+    public string? TaxId { get; set; } = string.Empty;
 }

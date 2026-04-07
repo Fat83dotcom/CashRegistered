@@ -45,11 +45,12 @@ public class UserUseCase(
                 FirstName = request.FirstName!,
                 LastName = request.LastName!,
                 BirthDate = request.BirthDate ?? DateTime.MinValue,
-                Document = request.Document!,
+                TaxId = request.TaxId!,
                 Email = request.Email!,
                 CellPhone = request.CellPhone!,
                 Phone = request.Phone!,
-                Gender = request.Gender!
+                Gender = request.Gender!,
+                PersonType = 1 // Default to Physical for User creation if not specified
             };
 
             var personResponse = await personUseCase.CreatePerson(createPersonRequest);
@@ -136,7 +137,7 @@ public class UserUseCase(
                 Id =  user.Id,
                 Name = user.Person.Name,
                 Birthdate = user.Person.Birthdate,
-                Document = user.Person.Document
+                TaxId = user.Person.TaxId
             }
         );
         
@@ -167,18 +168,11 @@ public class UserUseCase(
         return user!;
     }
 
-    public async Task<User?> GetUserByUserName(string userName)
+    public async Task<User> GetValidUserByUserName(string userName)
     {
         var user = await repository.GetUserByUserName(userName);
         User.ValidateUserExists(user, notificationContext);
         return user!;
-    }
-
-    public async Task<User?> GetUserLoginByUserName(string userName)
-    {
-        var user = await repository.GetUserByUserName(userName);
-        User.ValidateUserLoginExists(user, notificationContext);
-        return user;
     }
 
     public async Task<PagedResponse<GetAllUsersResponse>> SearchUsers(SearchUserRequest request)
@@ -192,12 +186,23 @@ public class UserUseCase(
                 Id = u.Id,
                 Name = u.Person.Name,
                 Birthdate = u.Person.Birthdate,
-                Document = u.Person.Document
+                TaxId = u.Person.TaxId
             }),
             TotalCount = pagedUsers.TotalCount,
             Page = pagedUsers.Page,
             PageSize = pagedUsers.PageSize
         };
     }
-}
 
+    public async Task<User?> GetUserByUserName(string userName)
+    {
+        return await repository.GetUserByUserName(userName);
+    }
+
+    public async Task<User?> GetUserLoginByUserName(string userName)
+    {
+        var user = await repository.GetUserByUserName(userName);
+        User.ValidateUserLoginExists(user, notificationContext);
+        return user;
+    }
+}

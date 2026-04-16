@@ -21,16 +21,7 @@ public class PersonController(IPersonUseCase person) : ControllerBase
     [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> GetPeople()
     {
-        var result = await person.GetAllPeople();
-        var response = result.Select(p => new
-        {
-            p.Id,
-            p.Name,
-            p.TaxId,
-            p.Email,
-            p.Phone,
-            p.Gender
-        });
+        var response = await person.GetAllPeople();
         return Ok(response);
     }
 

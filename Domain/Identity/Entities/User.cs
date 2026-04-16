@@ -10,9 +10,7 @@ namespace Domain.Identity.Entities;
 
 public class User : BaseEntity
 {
-    private readonly List<Notification> _notifications = new();
-    public IReadOnlyCollection<Notification> Notifications => _notifications.AsReadOnly();
-    public bool IsInvalid => _notifications.Any();
+   
 
     public User(
         int personId,
@@ -65,16 +63,6 @@ public class User : BaseEntity
             );
 
         AddNotifications(contract.Notifications);
-    }
-
-    private void AddNotifications(IEnumerable<Notification> notifications)
-    {
-        _notifications.AddRange(notifications);
-    }
-
-    private void AddNotification(string key, string message)
-    {
-        _notifications.Add(new Notification(key, message));
     }
 
     public void ValidateUniqueUser(bool userNameExists, bool personAlreadyHasUser)

@@ -14,9 +14,11 @@ public class UserController(IUserUseCase user) : ControllerBase
 {
     [HttpPost]
     [Authorize(Policy = "AdminOnly")]
-    public async Task<IActionResult> CreateUser(CreateUserRequest request)
+    public async Task<IActionResult> CreateUser(
+        [FromBody] CreateUserPayload payload
+    )
     {
-        var response = await user.CreateUser(request);
+        var response = await user.CreateUser(payload.UserRequest, payload.PersonRequest);
         return Created(string.Empty, response);
     }
 

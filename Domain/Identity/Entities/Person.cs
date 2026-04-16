@@ -10,10 +10,6 @@ namespace Domain.Identity.Entities;
 
 public class Person : BaseEntity
 {
-    private readonly List<Notification> _notifications = new();
-    public IReadOnlyCollection<Notification> Notifications => _notifications.AsReadOnly();
-    public bool IsInvalid => _notifications.Any();
-
     public Person(
         PersonType personType,
         string firstName,
@@ -41,7 +37,6 @@ public class Person : BaseEntity
         Phone = phone ?? string.Empty;
         Gender = Enum.TryParse(gender, out Gender result) ? result : Enums.Gender.Other;
 
-        // Validação inicial (Design by Contract)
         Validate();
     }
 
@@ -66,15 +61,17 @@ public class Person : BaseEntity
     {
         var contract = new Contract<Notification>()
             .Requires()
-            .IsNotNullOrEmpty(TaxId, "TaxId", "O CPF/CNPJ é obrigatório.")
-            .IsEmail(Email, "Email", "E-mail inválido.");
+            .IsNotNullOrEmpty(TaxId, "CPF/CNPJ", "O CPF/CNPJ é obrigatório.")
+            .IsEmail(Email, "E-mail", "E-mail inválido.");
         
         if (PersonType == PersonType.Legal)
         {
-            contract.IsNotNullOrEmpty(TradeName, "TradeName", "O Nome Fantasia é obrigatório para Pessoa Jurídica.");
+            contract.IsNotNullOrEmpty(
+                TradeName, "Nome Fantasia",
+                "O Nome Fantasia é obrigatório para Pessoa Jurídica."
+            );
         }
-
-        _notifications.AddRange(contract.Notifications);
+        AddNotifications(contract.Notifications);
     }
 
     public void AddAddress(Address address)
@@ -86,12 +83,12 @@ public class Person : BaseEntity
     public void ValidateUniquePerson(bool taxIdExists)
     {
         if (taxIdExists)
-            _notifications.Add(new Notification("TaxId", "Já existe uma pessoa cadastrada com este CPF/CNPJ."));
+            AddNotification("CPF/CNPJ", "Já existe uma pessoa cadastrada com este CPF/CNPJ.");
     }
 
     public static void ValidatePersonExists(Person? targetPerson, NotificationContext notificationContext)
     {
         if (targetPerson == null)
-            notificationContext.AddNotification("Person", "A pessoa não existe.");
+            notificationContext.AddNotification("Pessoa", "A pessoa não existe.");
     }
 }

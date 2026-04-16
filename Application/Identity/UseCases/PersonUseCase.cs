@@ -4,6 +4,8 @@ using Domain.Identity.Enums;
 using Domain.Identity.Repositories;
 using Shared.Abstractions;
 using Shared.Identity.Request;
+using Shared.Identity.Response;
+using Shared.Notifications;
 using Shared.Request;
 using Shared.Validations;
 
@@ -11,7 +13,9 @@ namespace Application.Identity.UseCases;
 
 public class PersonUseCase(
     IPersonRepository repository,
-    IUnitOfWork unitOfWork) : GeneralValidator, IPersonUseCase
+    IUnitOfWork unitOfWork,
+    NotificationContext notificationContext
+    ) : GeneralValidator, IPersonUseCase
 {
     public async Task<CreateResponse> CreatePerson(CreatePersonRequest request)
     {
@@ -24,7 +28,7 @@ public class PersonUseCase(
             request.FirstName,
             request.LastName,
             request.TaxId,
-            request.BirthDate,
+            request.Birthdate,
             request.Email,
             request.TradeName,
             request.StateRegistration,
@@ -34,19 +38,13 @@ public class PersonUseCase(
             request.Gender
         );
 
-        var existingPerson = await repository.GetPersonByTaxId(person.TaxId);
-
-        // A entidade person agora cuida de suas notificações (Flunt)
-        // Mas o UseCase original ainda usava GeneralValidator/Exception. 
-        // Como o mandato diz "não modifique nada alem disso" (mudança estrutural), 
-        // vou manter a lógica de exceção se for o padrão atual do PersonUseCase,
-        // ou adaptar para o novo sistema de notificações se já tiver sido migrado.
-        
-        // Verificando se Person já foi migrada para Flunt
         if (person.IsInvalid)
         {
-            // Se já usa Flunt, o ideal seria repassar, mas para manter o build:
-            // (Ajuste posterior para NotificationContext)
+            notificationContext.AddNotifications(person.Notifications);
+            return new CreateResponse
+            {
+                Id = 0
+            };
         }
 
         await repository.CreateAsync(person);
@@ -68,8 +66,14 @@ public class PersonUseCase(
         return repository.GetPersonByTaxId(taxId);
     }
 
-    public Task<IEnumerable<Person>> GetAllPeople()
+    public async Task<IEnumerable<GetAllPeopleResponse>> GetAllPeople()
     {
-        return repository.FindAsync(p => true);
+        var response = await repository.FindAsync(p => true);
+        return response.Select(person => new GetAllPeopleResponse
+        {
+            Id = person.Id,
+            Name = person.Name,
+            TaxId = person.TaxId
+        });
     }
 }

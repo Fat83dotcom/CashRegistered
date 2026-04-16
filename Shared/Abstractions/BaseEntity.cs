@@ -1,3 +1,4 @@
+using Flunt.Notifications;
 using Shared.Validations;
 
 namespace Shared.Abstractions;
@@ -9,6 +10,11 @@ public abstract class BaseEntity : GeneralValidator
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; private set; }
     public bool IsActive { get; private set; } = true;
+    
+    // O sistema de notificações é comum a todoas entidades.
+    private readonly List<Notification> _notifications = new();
+    public IReadOnlyCollection<Notification> Notifications => _notifications.AsReadOnly();
+    public bool IsInvalid => _notifications.Any();
 
     // Método para atualizar o timestamp automaticamente
     protected void RegisterUpdate()
@@ -26,5 +32,15 @@ public abstract class BaseEntity : GeneralValidator
     {
         IsActive = true;
         RegisterUpdate();
+    }
+
+    protected void AddNotifications(IReadOnlyCollection<Notification> notifications)
+    {
+        _notifications.AddRange(notifications);
+    }
+
+    protected void AddNotification(string key, string message)
+    {
+        _notifications.Add(new Notification(key, message));
     }
 } 

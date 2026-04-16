@@ -1,5 +1,4 @@
 using Application.Identity.Interfaces;
-using Application.Security.Interfaces;
 using Domain.Identity.Entities;
 using Domain.Identity.Enums;
 using Domain.Security.Interfaces;
@@ -24,13 +23,16 @@ public class UserUseCase(
     NotificationContext notificationContext
 ) : GeneralValidator, IUserUseCase
 {
-    public async Task<CreateResponse> CreateUser(CreateUserRequest request)
+    public async Task<CreateResponse> CreateUser(
+        CreateUserRequest userRequest,
+        CreatePersonRequest? personRequest
+    )
     {
         int personId;
-        
-        if (request.PersonId > 0)
+
+        if (userRequest.PersonId > 0)
         {
-            var person = await personRepository.GetByIdAsync(request.PersonId.Value);
+            var person = await personRepository.GetByIdAsync(userRequest.PersonId.Value);
             if (person == null)
             {
                 notificationContext.AddNotification("Person", "A pessoa informada não existe.");
@@ -40,33 +42,45 @@ public class UserUseCase(
         }
         else
         {
+            if (personRequest == null)
+            {
+                notificationContext.AddNotification(
+                    "Person", "Os dados da pessoa são obrigatórios para um novo cadastro."
+                );
+                return new CreateResponse();
+            }
+
             var createPersonRequest = new CreatePersonRequest
             {
-                FirstName = request.FirstName!,
-                LastName = request.LastName!,
-                BirthDate = request.BirthDate ?? DateTime.MinValue,
-                TaxId = request.TaxId!,
-                Email = request.Email!,
-                CellPhone = request.CellPhone!,
-                Phone = request.Phone!,
-                Gender = request.Gender!,
+                FirstName = personRequest.FirstName,
+                LastName = personRequest.LastName,
+                Birthdate = personRequest.Birthdate,
+                TaxId = personRequest.TaxId,
+                Email = personRequest.Email,
+                CellPhone = personRequest.CellPhone!,
+                Phone = personRequest.Phone!,
+                Gender = personRequest.Gender!,
                 PersonType = 1 // Default to Physical for User creation if not specified
             };
 
             var personResponse = await personUseCase.CreatePerson(createPersonRequest);
+            if (personResponse.Id == 0)
+            {
+                return new CreateResponse();
+            }
             personId = personResponse.Id;
         }
         
-        var existingUserByUsername = await repository.GetUserByUserName(request.UserName);
+        var existingUserByUsername = await repository.GetUserByUserName(userRequest.UserName);
         var usersForPerson = await repository.FindAsync(u => u.PersonId == personId);
         var personAlreadyHasUser = usersForPerson.Any();
         
-        var userRole = Enum.TryParse(request.Role, out UserRole role) ? role : UserRole.Business;
+        var userRole = Enum.TryParse(userRequest.Role, out UserRole role) ? role : UserRole.Business;
         
         User user = new (
             personId,
-            request.Password,
-            request.UserName,
+            userRequest.Password,
+            userRequest.UserName,
             userRole
         );
         

@@ -9,9 +9,9 @@ public class CreatePersonRequest
     public string? TradeName { get; set; }
     public string? StateRegistration { get; set; }
     public string? MunicipalRegistration { get; set; }
-    public DateTime BirthDate { get; set; }
+    public DateTime Birthdate { get; set; }
     public string Email { get; set; } = null!;
-    public string CellPhone { get; set; } = null!;
-    public string Phone { get; set; } = null!;
-    public string Gender { get; set; } = null!;
+    public string? CellPhone { get; set; }
+    public string? Phone { get; set; }
+    public string? Gender { get; set; }
 }

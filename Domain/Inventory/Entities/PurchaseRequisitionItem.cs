@@ -15,10 +15,16 @@ public class PurchaseRequisitionItem : BaseEntity
     protected PurchaseRequisitionItem() { }
 
     public int RequisitionId { get; set; }
+    
     public PurchaseRequisition Requisition { get; set; }
+    
     public int ProductId { get; set; }
+    
     public Product Product { get; set; }
+    
     public int UomId { get; set; }
+    
     public UnitOfMeasure Uom { get; set; }
+    
     public decimal RequestedQuantity { get; set; }
 }

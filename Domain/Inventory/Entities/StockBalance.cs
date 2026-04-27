@@ -15,10 +15,16 @@ public class StockBalance : BaseEntity
     protected StockBalance() { }
 
     public int ProductId { get; set; }
+    
     public Product Product { get; set; }
+    
     public int WarehouseId { get; set; }
+    
     public Warehouse Warehouse { get; set; }
+    
     public decimal AvailableQuantity { get; set; }
+    
     public decimal ReservedQuantity { get; set; }
+    
     public decimal TotalQuantity => AvailableQuantity + ReservedQuantity;
 }

@@ -22,10 +22,16 @@ public class InventoryTransaction : BaseEntity
     protected InventoryTransaction() { }
 
     public DateTime DateTime { get; set; }
+    
     public int UserId { get; set; }
+    
     public User User { get; set; }
+    
     public InventoryTransactionType TransactionType { get; set; }
+    
     public InventoryTransactionStatus Status { get; set; }
+    
     public string? ReferenceDocument { get; set; }
+    
     public ICollection<InventoryTransactionItem> Items { get; set; } = new List<InventoryTransactionItem>();
 }

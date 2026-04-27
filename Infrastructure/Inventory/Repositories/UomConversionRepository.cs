@@ -1,0 +1,64 @@
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using Domain.Inventory.Entities;
+using Domain.Inventory.Repositories;
+using Infrastructure.Common;
+using Infrastructure.Persistence;
+using Shared.Inventory.Request;
+using Shared.Response;
+
+namespace Infrastructure.Inventory.Repositories;
+
+public class UomConversionRepository(
+    CashRegisterDbContext context
+) : IUomConversionRepository
+{
+    public async Task CreateAsync(UomConversion entity)
+    {
+        await context.AddAsync(entity);
+    }
+
+    public Task<UomConversion?> GetByIdAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<UomConversion>> FindAsync(Expression<Func<UomConversion, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Update(UomConversion entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Delete(UomConversion entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<PagedResponse<UomConversion>> SearchAsync(SearchUomConversionRequest request)
+    {
+        var query = context.UomConversions
+            .Include(u => u.FromUom)
+            .Include(u => u.ToUom)
+            .Include(u => u.Product)
+            .AsQueryable();
+
+        if (string.IsNullOrWhiteSpace(request.Term))
+            return await query.ToPagedResponseAsync(request.Page, request.PageSize);
+        var term = request.Term.ToLower();
+        query = query.Where(uom => 
+            uom.Multiplier.ToString().Contains(term) ||
+            uom.FromUom.Name.ToLower().Contains(term) ||
+            uom.FromUom.Code.ToLower().Contains(term) ||
+            uom.ToUom.Name.ToLower().Contains(term) ||
+            uom.ToUom.Code.ToLower().Contains(term) ||
+            (uom.Product != null && (uom.Product.Name.ToLower().Contains(term) ||
+                                     uom.Product.Sku.ToLower().Contains(term)))
+        );
+
+        return await query.ToPagedResponseAsync(request.Page, request.PageSize);
+    }
+}

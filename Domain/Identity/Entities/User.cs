@@ -61,7 +61,6 @@ public class User : BaseEntity
                 12, "Senha",
                 "A senha deve ter pelo menos 12 caracteres."
             );
-
         AddNotifications(contract.Notifications);
     }
 

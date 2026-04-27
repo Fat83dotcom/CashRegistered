@@ -16,8 +16,12 @@ public class PurchaseRequisition : BaseEntity
     protected PurchaseRequisition() { }
 
     public DateTime Date { get; set; }
+    
     public int UserId { get; set; }
+    
     public User User { get; set; }
+    
     public PurchaseRequisitionStatus Status { get; set; }
+    
     public ICollection<PurchaseRequisitionItem> Items { get; set; } = new List<PurchaseRequisitionItem>();
 }

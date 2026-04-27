@@ -1,11 +1,13 @@
 using Domain.Financial.Repositories;
 using Domain.Identity.Repositories;
+using Domain.Inventory.Repositories;
 using Domain.Security.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Financial.Repositories;
 using Infrastructure.Identity.Repositories;
+using Infrastructure.Inventory.Repositories;
 using Infrastructure.Persistence;
 using Infrastructure.Security.Services;
 using Shared.Notifications;
@@ -38,6 +40,10 @@ public static class DependencyInjectionInfrastructure
         services.AddScoped<IExpenseRepository, ExpenseRepository>();
         
         services.AddScoped<IPersonRepository, PersonRepository>();
+
+        services.AddScoped<IUnitOfMeasureRepository, UnitOfMeasureRepository>();
+        
+        services.AddScoped<IUomConversionRepository, UomConversionRepository>();
 
         return services;
     }

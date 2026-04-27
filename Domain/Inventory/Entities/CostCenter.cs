@@ -14,6 +14,8 @@ public class CostCenter : BaseEntity
     protected CostCenter() { }
 
     public string Name { get; set; }
+    
     public int ManagerId { get; set; }
+    
     public User Manager { get; set; }
 }

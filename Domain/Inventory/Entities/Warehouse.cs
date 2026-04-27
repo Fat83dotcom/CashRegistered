@@ -13,6 +13,8 @@ public class Warehouse : BaseEntity
     protected Warehouse() { }
 
     public string Name { get; set; }
+    
     public string Type { get; set; }
+    
     public ICollection<StockBalance> StockBalances { get; set; } = new List<StockBalance>();
 }

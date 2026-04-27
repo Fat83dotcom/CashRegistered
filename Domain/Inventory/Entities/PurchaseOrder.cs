@@ -15,8 +15,12 @@ public class PurchaseOrder : BaseEntity
     protected PurchaseOrder() { }
 
     public int SupplierId { get; set; }
+    
     public Supplier Supplier { get; set; }
+    
     public DateTime IssueDate { get; set; }
+    
     public PurchaseOrderStatus Status { get; set; }
+    
     public ICollection<PurchaseOrderItem> Items { get; set; } = new List<PurchaseOrderItem>();
 }

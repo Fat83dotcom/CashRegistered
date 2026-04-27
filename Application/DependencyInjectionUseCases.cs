@@ -4,6 +4,8 @@ using Application.Financial.Interfaces;
 using Application.Identity.UseCases;
 using Application.Security.UseCases;
 using Application.Financial.UseCases;
+using Application.Inventory.Interfaces;
+using Application.Inventory.UseCases;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -23,5 +25,9 @@ public static class DependencyInjectionUseCases
         services.AddScoped<ITokenGenerator, TokenService>();
         
         services.AddScoped<IPersonUseCase, PersonUseCase>();
+
+        services.AddScoped<IUnitOfMeasureUseCase, UnitOfMeasureUseCase>();
+        
+        services.AddScoped<IUomConversionUseCase, UomConversionUseCase>();
     }
 }

@@ -2,5 +2,5 @@ namespace Shared.Request;
 
 public class CreateResponse
 {
-    public int Id { get; set; } = 0;
+    public int Id { get; set; }
 }

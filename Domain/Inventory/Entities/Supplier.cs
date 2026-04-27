@@ -13,6 +13,8 @@ public class Supplier : BaseEntity
     protected Supplier() { }
 
     public int PersonId { get; set; }
+    
     public Person Person { get; set; }
+    
     public ICollection<PurchaseOrder> PurchaseOrders { get; set; } = new List<PurchaseOrder>();
 }

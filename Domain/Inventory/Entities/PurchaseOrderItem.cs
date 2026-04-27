@@ -25,14 +25,24 @@ public class PurchaseOrderItem : BaseEntity
     protected PurchaseOrderItem() { }
 
     public int OrderId { get; set; }
+    
     public PurchaseOrder Order { get; set; }
+    
     public int ProductId { get; set; }
+    
     public Product Product { get; set; }
+    
     public int UomId { get; set; }
+    
     public UnitOfMeasure Uom { get; set; }
+    
     public decimal OrderedQuantity { get; set; }
+    
     public decimal ReceivedQuantity { get; set; }
+    
     public decimal UnitPrice { get; set; }
+    
     public int? RequisitionItemId { get; set; }
+    
     public PurchaseRequisitionItem? RequisitionItem { get; set; }
 }

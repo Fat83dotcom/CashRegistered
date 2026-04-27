@@ -15,8 +15,12 @@ public class InternalRequisition : BaseEntity
     protected InternalRequisition() { }
 
     public int CostCenterId { get; set; }
+    
     public CostCenter CostCenter { get; set; }
+    
     public DateTime RequestDate { get; set; }
+    
     public InternalRequisitionStatus Status { get; set; }
+    
     public ICollection<InternalRequisitionItem> Items { get; set; } = new List<InternalRequisitionItem>();
 }

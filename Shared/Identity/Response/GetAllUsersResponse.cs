@@ -11,4 +11,6 @@ public class GetAllUsersResponse
     public DateTime Birthdate { get; set; }
 
     public string? TaxId { get; set; } = string.Empty;
+
+    public bool IsActive { get; set; }
 }

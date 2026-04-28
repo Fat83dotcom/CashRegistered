@@ -151,7 +151,8 @@ public class UserUseCase(
                 Id =  user.Id,
                 Name = user.Person.Name,
                 Birthdate = user.Person.Birthdate,
-                TaxId = user.Person.TaxId
+                TaxId = user.Person.TaxId,
+                IsActive = user.IsActive
             }
         );
         

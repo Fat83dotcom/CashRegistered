@@ -68,7 +68,8 @@ public class UnitOfMeasureUseCase(
                 Id = u.Id,
                 Code = u.Code,
                 Name = u.Name,
-                AllowDecimals = u.AllowDecimals
+                AllowDecimals = u.AllowDecimals,
+                IsActive = u.IsActive
             }),
             Page = pagedUoms.Page,
             PageSize = pagedUoms.PageSize,

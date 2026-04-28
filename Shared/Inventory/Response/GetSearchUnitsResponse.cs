@@ -9,4 +9,6 @@ public class GetSearchUnitsResponse
     public string Name { get; set; }
 
     public bool AllowDecimals { get; set; }
+
+    public bool IsActive { get; set; }
 }

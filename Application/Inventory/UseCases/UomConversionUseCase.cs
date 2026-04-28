@@ -43,7 +43,9 @@ public class UomConversionUseCase(
         };
     }
 
-    public async Task<PagedResponse<GetSearchUomConversionResponse>> SearchUomConversion(SearchUomConversionRequest request)
+    public async Task<PagedResponse<GetSearchUomConversionResponse>> SearchUomConversion(
+        SearchUomConversionRequest request
+    )
     {
         var pagedUomSearches = await repository.SearchAsync(request);
 

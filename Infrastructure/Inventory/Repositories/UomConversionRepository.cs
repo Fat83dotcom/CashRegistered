@@ -20,7 +20,12 @@ public class UomConversionRepository(
 
     public Task<UomConversion?> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return context.UomConversions
+            .Include(uom => uom.FromUom)
+            .Include(uom => uom.ToUom)
+            .Include(uom => uom.Product)
+            .Where(uom => uom.Id == id)
+            .FirstOrDefaultAsync();
     }
 
     public Task<IEnumerable<UomConversion>> FindAsync(Expression<Func<UomConversion, bool>> predicate)
@@ -30,7 +35,7 @@ public class UomConversionRepository(
 
     public void Update(UomConversion entity)
     {
-        throw new NotImplementedException();
+        context.UomConversions.Update(entity);
     }
 
     public void Delete(UomConversion entity)

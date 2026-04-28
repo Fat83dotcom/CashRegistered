@@ -25,9 +25,11 @@ public class UnitOfMeasureRepository(CashRegisterDbContext context) : IUnitOfMea
         await context.UnitsOfMeasure.AddAsync(entity);
     }
 
-    public Task<UnitOfMeasure?> GetByIdAsync(int id)
+    public async Task<UnitOfMeasure?> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return await context.UnitsOfMeasure
+            .Where(u => u.Id == id)
+            .FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<UnitOfMeasure>> FindAsync(Expression<Func<UnitOfMeasure, bool>> predicate)
@@ -39,7 +41,7 @@ public class UnitOfMeasureRepository(CashRegisterDbContext context) : IUnitOfMea
 
     public void Update(UnitOfMeasure entity)
     {
-        throw new NotImplementedException();
+        context.UnitsOfMeasure.Update(entity);
     }
 
     public void Delete(UnitOfMeasure entity)

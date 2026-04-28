@@ -26,4 +26,12 @@ public class UnitOfMeasureController(
         var response = await unitOfMeasureUseCase.SearchUnits(request);
         return Ok(response);
     }
+
+    [HttpPut("{id}/deactivate")]
+    [Authorize(Policy = "LogisticsOnly")]
+    public async Task<IActionResult> DeactivateUnitOfMeasure([FromRoute] int id)
+    {
+        await unitOfMeasureUseCase.DeactivateUnitOfMeasure(id);
+        return NoContent();
+    }
 }

@@ -100,7 +100,7 @@ public class UserUseCase(
         return new CreateResponse { Id = user.Id };
     }
     
-    public async Task DisableUser(int userId)
+    public async Task DeactivateUser(int userId)
     {
         var user = await repository.GetByIdAsync(userId);
         if (user == null)

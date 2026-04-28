@@ -10,7 +10,7 @@ namespace Application.Identity.Interfaces;
 public interface IUserUseCase
 {
     Task<CreateResponse> CreateUser(CreateUserRequest userRequest, CreatePersonRequest? personRequest);
-    Task DisableUser(int userId);
+    Task DeactivateUser(int userId);
     Task ChangePassword(int userId, ChangePasswordRequest request);
     Task <IEnumerable<GetAllUsersResponse>> GetAllUsers();
     Task<User?> GetUserById(int userId);

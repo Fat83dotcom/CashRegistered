@@ -39,11 +39,11 @@ public class UserController(IUserUseCase user) : ControllerBase
         return Ok(result);
     }
 
-    [HttpPut("Disable")]
+    [HttpPut("{id}/deactivate")]
     [Authorize(Policy = "AdminOnly")]
-    public async Task<IActionResult> DisableUser([FromQuery] int userId)
+    public async Task<IActionResult> DeactivateUser(int id)
     {
-        await user.DisableUser(userId);
+        await user.DeactivateUser(id);
         return Ok();
     }
 

@@ -75,4 +75,25 @@ public class UnitOfMeasureUseCase(
             TotalCount = pagedUoms.TotalCount
         };
     }
+
+    public async Task DeactivateUnitOfMeasure(int uomId)
+    {
+        var uom = await GetUomById(uomId);
+
+        if (uom == null)
+        {
+            notificationContext.AddNotification("Desativar", "A unidade não existe.");
+            return;
+        }
+        
+        uom.Deactivate();
+        
+        repository.Update(uom);
+        await unitOfWork.CommitAsync();
+    }
+
+    public async Task<UnitOfMeasure?> GetUomById(int uomId)
+    {
+        return await repository.GetByIdAsync(uomId);
+    }
 }

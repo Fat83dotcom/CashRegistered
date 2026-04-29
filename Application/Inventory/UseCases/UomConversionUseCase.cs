@@ -71,4 +71,22 @@ public class UomConversionUseCase(
             TotalCount = pagedUomSearches.TotalCount
         };
     }
+
+    public async Task DeactivateUomConversion(int uomId)
+    {
+        var uom = await repository.GetByIdAsync(uomId);
+
+        if (!UomConversion.UomConversionExists(uom, notificationContext)) return;
+        
+        if (uom is { IsActive: false })
+        {
+            notificationContext.AddNotification("Desativar", "Essa conversão já está inativa.");
+            return;
+        }
+        
+        uom!.Deactivate();
+
+        repository.Update(uom);
+        await unitOfWork.CommitAsync();
+    }
 }

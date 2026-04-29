@@ -3,6 +3,7 @@ using Domain.Inventory.Repositories;
 using Flunt.Notifications;
 using Flunt.Validations;
 using Shared.Abstractions;
+using Shared.Notifications;
 
 namespace Domain.Inventory.Entities;
 
@@ -49,5 +50,12 @@ public class UnitOfMeasure : BaseEntity
         if (!result.Any()) return false;
         AddNotification("Sigla", "Sigla já existe.");
         return true;
+    }
+
+    public static bool UomExists(UnitOfMeasure? uom,  NotificationContext notificationContext)
+    {
+        if (uom != null) return true;
+        notificationContext.AddNotification("Unidade de Medida", "Unidade de Medida não existe");
+        return false;
     }
 }

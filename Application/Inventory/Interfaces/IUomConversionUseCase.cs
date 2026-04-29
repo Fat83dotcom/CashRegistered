@@ -11,4 +11,6 @@ public interface IUomConversionUseCase
     Task<CreateResponse> CreateUomConversion(CreateUomConversionRequest request);
     
     Task<PagedResponse<GetSearchUomConversionResponse>> SearchUomConversion(SearchUomConversionRequest request);
+    
+    Task DeactivateUomConversion(int uomId);
 }

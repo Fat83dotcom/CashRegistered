@@ -30,4 +30,12 @@ public class UomConversionController(
         var response = await uomConversionCase.SearchUomConversion(request);
         return Ok(response);
     }
+
+    [HttpPut("{id}/Deactivate")]
+    [Authorize(Policy = "LogisticsOnly")]
+    public async Task<IActionResult> DeactivateUomConversion([FromRoute] int id)
+    {
+        await   uomConversionCase.DeactivateUomConversion(id);
+        return NoContent();
+    }
 }

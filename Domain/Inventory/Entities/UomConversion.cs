@@ -1,5 +1,6 @@
 using Flunt.Validations;
 using Shared.Abstractions;
+using Shared.Notifications;
 
 namespace Domain.Inventory.Entities;
 
@@ -35,4 +36,12 @@ public class UomConversion : BaseEntity
     public int? ProductId { get; set; }
     
     public Product? Product { get; set; }
+
+    public static bool UomConversionExists(UomConversion? uom, NotificationContext notificationContext)
+    {
+        if (uom != null) return true;
+        notificationContext.AddNotification("Regra de conversão", "Regra de conversão não existe.");
+        return false;
+    }
+
 }

@@ -42,21 +42,7 @@ public class UnitOfMeasureUseCase(
             Id = uom.Id
         };
     }
-
-    public async Task<IEnumerable<GetSearchUnitsResponse>> GetAllUnits()
-    {
-        var result = await repository.FindAsync(u => true);
-        return result.Select(u =>
-            new GetSearchUnitsResponse
-            {
-                Id = u.Id,
-                Code = u.Code,
-                Name = u.Name,
-                AllowDecimals = u.AllowDecimals
-            }
-        );
-    }
-
+    
     public async Task<PagedResponse<GetSearchUnitsResponse>> SearchUnits(SearchUnitOfMeasureRequest request)
     {
         var pagedUoms = await repository.SearchAsync(request);
@@ -81,13 +67,15 @@ public class UnitOfMeasureUseCase(
     {
         var uom = await GetUomById(uomId);
 
-        if (uom == null)
+        if (!UnitOfMeasure.UomExists(uom, notificationContext)) return;
+
+        if (uom is { IsActive: false })
         {
-            notificationContext.AddNotification("Desativar", "A unidade não existe.");
+            notificationContext.AddNotification("Desativar", "Unidade de Medida já está inativa.");
             return;
         }
         
-        uom.Deactivate();
+        uom!.Deactivate();
         
         repository.Update(uom);
         await unitOfWork.CommitAsync();

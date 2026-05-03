@@ -15,19 +15,7 @@ public class UnitOfMeasure : BaseEntity
         Name = name;
         AllowDecimals = allowDecimals;
 
-        var contract = new Contract<Notification>()
-            .Requires()
-            .IsNotNullOrEmpty(
-                Code,
-                "Sigla/Código",
-                "A sigla da unidade de medida é obrigatória."
-            )
-            .IsNotUrlOrEmpty(
-                Name,
-                "Nome da unidade de medida",
-                "Nome da unidade de medida é obrigatório."
-            );
-        AddNotifications(contract.Notifications);
+        EntityValidate();
     }
 
     protected UnitOfMeasure() { }
@@ -57,5 +45,22 @@ public class UnitOfMeasure : BaseEntity
         if (uom != null) return true;
         notificationContext.AddNotification("Unidade de Medida", "Unidade de Medida não existe");
         return false;
+    }
+
+    private void EntityValidate()
+    {
+        var contract = new Contract<Notification>()
+            .Requires()
+            .IsNotNullOrEmpty(
+                Code,
+                "Sigla/Código",
+                "A sigla da unidade de medida é obrigatória."
+            )
+            .IsNotUrlOrEmpty(
+                Name,
+                "Nome da unidade de medida",
+                "Nome da unidade de medida é obrigatório."
+            );
+        AddNotifications(contract.Notifications);
     }
 }

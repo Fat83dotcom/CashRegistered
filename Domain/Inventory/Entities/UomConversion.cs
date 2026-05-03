@@ -13,12 +13,7 @@ public class UomConversion : BaseEntity
         Multiplier = multiplier;
         ProductId = productId;
 
-        var contract = new Contract<UomConversion>()
-            .Requires()
-            .IsGreaterThan(FromUomId, 0, "Unidade Origem", "Unidade Origem é obrigatório.")
-            .IsGreaterThan(ToUomId, 0, "Unidade Destino", "Unidade Destino é obrigatório.")
-            .AreNotEquals(Multiplier, 0, "Multiplicador", "Deve ser diferente de zero.");
-        AddNotifications(contract.Notifications);
+        EntityValidate();
     }
 
     protected UomConversion() { }
@@ -44,4 +39,13 @@ public class UomConversion : BaseEntity
         return false;
     }
 
+    private void EntityValidate()
+    {
+        var contract = new Contract<UomConversion>()
+            .Requires()
+            .IsGreaterThan(FromUomId, 0, "Unidade Origem", "Unidade Origem é obrigatório.")
+            .IsGreaterThan(ToUomId, 0, "Unidade Destino", "Unidade Destino é obrigatório.")
+            .AreNotEquals(Multiplier, 0, "Multiplicador", "Deve ser diferente de zero.");
+        AddNotifications(contract.Notifications);
+    }
 }

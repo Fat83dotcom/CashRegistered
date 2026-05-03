@@ -1,21 +1,24 @@
+using System.Globalization;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Domain.Inventory.Entities;
 using Domain.Inventory.Repositories;
 using Infrastructure.Common;
 using Infrastructure.Persistence;
+using Infrastructure.Utils.Interfaces;
 using Shared.Inventory.Request;
 using Shared.Response;
 
 namespace Infrastructure.Inventory.Repositories;
 
 public class UomConversionRepository(
-    CashRegisterDbContext context
+    CashRegisterDbContext context,
+    ISqlUtils sqlUtils
 ) : IUomConversionRepository
 {
     public async Task CreateAsync(UomConversion entity)
     {
-        await context.AddAsync(entity);
+        await context.UomConversions.AddAsync(entity);
     }
 
     public Task<UomConversion?> GetByIdAsync(int id)
@@ -53,15 +56,20 @@ public class UomConversionRepository(
 
         if (string.IsNullOrWhiteSpace(request.Term))
             return await query.ToPagedResponseAsync(request.Page, request.PageSize);
-        var term = request.Term.ToLower();
-        query = query.Where(uom => 
-            uom.Multiplier.ToString().Contains(term) ||
-            uom.FromUom.Name.ToLower().Contains(term) ||
-            uom.FromUom.Code.ToLower().Contains(term) ||
-            uom.ToUom.Name.ToLower().Contains(term) ||
-            uom.ToUom.Code.ToLower().Contains(term) ||
-            (uom.Product != null && (uom.Product.Name.ToLower().Contains(term) ||
-                                     uom.Product.Sku.ToLower().Contains(term)))
+        
+        var term = sqlUtils.SqlLikeContains(request.Term.ToLower());
+        
+        query = query.Where(uom =>
+            string.IsNullOrWhiteSpace(term) ||
+            uom.Multiplier.ToString().Contains(request.Term) ||
+            EF.Functions.ILike(uom.FromUom.Name, term) ||
+            EF.Functions.ILike(uom.FromUom.Code, term) ||
+            EF.Functions.ILike(uom.ToUom.Name, term) ||
+            EF.Functions.ILike(uom.ToUom.Code, term) ||
+            uom.Product != null &&
+            EF.Functions.ILike(uom.Product.Name, term) ||
+            uom.Product != null &&
+            EF.Functions.ILike(uom.Product.Sku, term)
         );
 
         return await query.ToPagedResponseAsync(request.Page, request.PageSize);

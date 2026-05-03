@@ -10,6 +10,8 @@ using Infrastructure.Identity.Repositories;
 using Infrastructure.Inventory.Repositories;
 using Infrastructure.Persistence;
 using Infrastructure.Security.Services;
+using Infrastructure.Utils;
+using Infrastructure.Utils.Interfaces;
 using Shared.Notifications;
 using Shared.Abstractions;
 
@@ -25,6 +27,8 @@ public static class DependencyInjectionInfrastructure
         services.AddScoped<NotificationContext>();
         
         var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        services.AddScoped<ISqlUtils, SqlUtils>(); 
 
         services.AddDbContext<CashRegisterDbContext>(options =>
             options.UseNpgsql(connectionString)); 
@@ -44,6 +48,8 @@ public static class DependencyInjectionInfrastructure
         services.AddScoped<IUnitOfMeasureRepository, UnitOfMeasureRepository>();
         
         services.AddScoped<IUomConversionRepository, UomConversionRepository>();
+        
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         return services;
     }

@@ -31,5 +31,7 @@ public static class DependencyInjectionUseCases
         services.AddScoped<IUomConversionUseCase, UomConversionUseCase>();
         
         services.AddScoped<ICategoryUseCase, CategoryUseCase>();
+        
+        services.AddScoped<ITagUseCase, TagUseCase>();
     }
 }

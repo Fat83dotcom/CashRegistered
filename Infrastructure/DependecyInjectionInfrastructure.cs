@@ -50,6 +50,8 @@ public static class DependencyInjectionInfrastructure
         services.AddScoped<IUomConversionRepository, UomConversionRepository>();
         
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        
+        services.AddScoped<ITagRepository, TagRepository>();
 
         return services;
     }
